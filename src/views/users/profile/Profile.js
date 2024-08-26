@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 function profile() {
     const [blogger, setBlogger] = useState({});
-    const { id } = useParams();
+    const location = useLocation();
+    const id = location.state;
     useEffect(() => {
         const getBlogger = async () => {
             try {
