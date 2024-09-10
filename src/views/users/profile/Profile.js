@@ -1,23 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
 
+import { IoLogoInstagram, IoLogoTiktok, IoLogoYoutube } from "react-icons/io5";
+import axios from 'axios';
 function profile() {
-    const [blogger, setBlogger] = useState({});
     const location = useLocation();
-    const id = location.state;
-    useEffect(() => {
-        const getBlogger = async () => {
-            try {
-                const response = await axios.get(
-                    `http://localhost:8080/api/bloger/${id}`
-                );
-                setBlogger(response.data);
-            } catch (err) {
-                console.error(err);
-            }
-        };
-        getBlogger();
-    }, [id]);
+    const blogger = location.state;
+    console.log(blogger);
     return (
         <div className="container">
             <div className="row my-3 justify-content-center">

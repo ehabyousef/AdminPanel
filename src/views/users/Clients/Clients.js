@@ -1,72 +1,79 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { CiEdit } from "react-icons/ci";
 import { MdDeleteForever } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { GrView } from "react-icons/gr";
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUsers } from '../../../redux/slices/Bloggers';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 function Clients() {
+    const { users, loading, error, page, size } = useSelector((state) => state.Bloggers);
+    const [currentPage, setCurrentPage] = useState(0);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(fetchUsers({ page: currentPage, size }));//token missed
+    }, [dispatch, currentPage, size]);
+    console.log(users);
+    const handlePageChange = (event, value) => {
+        setCurrentPage(value - 1);
+    };
     return (
-        <div class="container-fluid">
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Country</th>
-                            <th scope="col">Handle</th>
-                            <th scope="col">View</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>ehabyooo@gmail.com</td>
-                            <td>@mdo</td>
-                            <td>
-                                <CiEdit />
-                                <MdDeleteForever />
-                            </td>
-                            <td>
-                                <Link className='text-decoration-none ' to='/users/profile'>
-                                    <GrView size={25} color='#ff0000' />
-                                </Link>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>ehabyooo@gmail.com</td>
-                            <td>@fat</td>
-                            <td>
-                                <CiEdit />
-                                <MdDeleteForever />
-                            </td>
-                            <td>
-                                <Link className='text-decoration-none ' to='/users/profile'>
-                                    <GrView size={25} color='#ff0000' />
-                                </Link>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Larry the Bird</td>
-                            <td>ehabyooo@gmail.com</td>
-                            <td>@twitter</td>
-                            <td>
-                                <CiEdit />
-                                <MdDeleteForever />
-                            </td>
-                            <td>
-                                <Link className='text-decoration-none ' to='/users/profile'>
-                                    <GrView size={25} color='#ff0000' />
-                                </Link>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        <div class="container-fluid d-flex justify-content-center">
+            {loading ?
+                <div className="col-12 col-md-9 d-flex justify-content-center align-items-center text-center gap-3 h-100">loading...</div>
+                :
+                <div className="col-12 col-md-9 d-flex flex-column gap-3">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Country</th>
+                                    <th scope="col">Handle</th>
+                                    <th scope="col">View</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {users.content?.map((user, index) => (
+                                    <tr key={index}>
+                                        <th scope="row">1</th>
+                                        <td>{user.name}</td>
+                                        <td>{user.email}</td>
+                                        <td>{user.countryOfResidence}</td>
+                                        <td>
+                                            <CiEdit />
+                                            <MdDeleteForever />
+                                        </td>
+                                        <td>
+                                            <Link className='text-decoration-none ' to='/users/profile' state={user}>
+                                                <GrView size={25} color='#0000ff' />
+                                            </Link>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className="row">
+                        <Stack spacing={2}>
+                            <Pagination
+                                count={users?.totalPages}
+                                page={currentPage + 1}
+                                onChange={handlePageChange}
+                                showFirstButton
+                                showLastButton
+                                variant="outlined"
+                                shape="rounded"
+                                color="primary"
+                                style={{ margin: '1rem auto' }}
+                            />
+                        </Stack>
+                    </div>
+                </div>
+            }
         </div>
     )
 }

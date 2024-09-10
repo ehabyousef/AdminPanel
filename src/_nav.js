@@ -38,11 +38,6 @@ const _nav = [
         name: 'bloggers',
         to: '/users/bloggers',
       },
-      {
-        component: CNavItem,
-        name: 'profile',
-        to: '/users/profile',
-      },
     ],
   },
   {

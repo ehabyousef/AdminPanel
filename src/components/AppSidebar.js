@@ -18,11 +18,12 @@ import { sygnet } from 'src/assets/brand/sygnet'
 
 // sidebar nav config
 import navigation from '../_nav'
+import { set } from '../redux/slices/changeStateSlice';
 
 const AppSidebar = () => {
   const dispatch = useDispatch()
   const unfoldable = useSelector((state) => state.sidebarUnfoldable)
-  const sidebarShow = useSelector((state) => state.sidebarShow)
+  const sidebarShow = useSelector((state) => state.changeState.sidebarShow);
 
   return (
     <CSidebar
@@ -31,9 +32,7 @@ const AppSidebar = () => {
       position="fixed"
       unfoldable={unfoldable}
       visible={sidebarShow}
-      onVisibleChange={(visible) => {
-        dispatch({ type: 'set', sidebarShow: visible })
-      }}
+    // onClick={() => dispatch(set({ sidebarShow: !sidebarShow }))}
     >
       <CSidebarHeader className="border-bottom">
         <CSidebarBrand to="/">
