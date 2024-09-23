@@ -29,27 +29,31 @@ function profile() {
                         <p className="fs-3 fw-bold">{blogger.name}</p>
                     </div>
                     <p className="fs-4 fw-bold" style={{ color: "var(--burble)" }}>
-                        $17,00
+                        {blogger.email}
                     </p>
                     <div className="d-flex flex-column gap-4">
-                        <div className="d-flex gap-2 align-items-center">
-                            <IoLogoInstagram size={20} color="var(--blue)" />
-                            <p className="m-0">
-                                {blogger.instagramFollowers} <span>followers</span>
-                            </p>
-                        </div>
-                        <div className="d-flex gap-2 align-items-center">
-                            <IoLogoYoutube size={20} color="var(--blue)" />
-                            <p className="m-0">
-                                {blogger.youtubeFollowers} <span>followers</span>
-                            </p>
-                        </div>
-                        <div className="d-flex gap-2 align-items-center">
-                            <IoLogoTiktok size={20} color="var(--blue)" />
-                            <p className="m-0">
-                                {blogger.tiktokFollowers} <span>followers</span>
-                            </p>
-                        </div>
+                        {blogger.interests ?
+                            <>
+                                <div className="d-flex gap-2 align-items-center">
+                                    <IoLogoInstagram size={20} color="var(--blue)" />
+                                    <p className="m-0">
+                                        {blogger.instagramFollowers} <span>followers</span>
+                                    </p>
+                                </div>
+                                <div className="d-flex gap-2 align-items-center">
+                                    <IoLogoYoutube size={20} color="var(--blue)" />
+                                    <p className="m-0">
+                                        {blogger.youtubeFollowers} <span>followers</span>
+                                    </p>
+                                </div>
+                                <div className="d-flex gap-2 align-items-center">
+                                    <IoLogoTiktok size={20} color="var(--blue)" />
+                                    <p className="m-0">
+                                        {blogger.tiktokFollowers} <span>followers</span>
+                                    </p>
+                                </div>
+                            </>
+                            : ''}
                     </div>
                 </div>
             </div>

@@ -54,13 +54,18 @@ const _nav = [
       },
       {
         component: CNavItem,
-        name: 'compeleted',
-        to: '/campagin/compeleted',
+        name: 'accepted',
+        to: '/campagin/accepted',
       },
       {
         component: CNavItem,
         name: 'rejected',
         to: '/campagin/rejected',
+      },
+      {
+        component: CNavItem,
+        name: 'compeleted',
+        to: '/campagin/compeleted',
       },
     ],
   },

@@ -1,62 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'; // For dispatching actions and accessing the state
 import { FaRegEdit } from 'react-icons/fa';
-import { GrView } from 'react-icons/gr';
-import { Link, useNavigate } from 'react-router-dom';
 import avatar from '../../../assets/images/avatars/1.jpg';
 import { CButton, CModal, CModalBody, CModalFooter, CModalHeader, CModalTitle } from '@coreui/react';
-import { adminToBloger } from '../../../redux/slices/AdminControl';
+import { adminToClient, getBloggerReply } from '../../../redux/slices/AdminControl';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-function Pending() {
-    const [loading, setLoading] = useState(false);
-    const [campaigns, setCampaigns] = useState([]);
-    const [selectedCampaign, setSelectedCampaign] = useState(null); // State to hold the selected campaign
-    const [content, setContent] = useState(''); // To hold the edited campaign content
+function Accepted() {
+    const dispatch = useDispatch();
+    const { bloggerReply, loading, error } = useSelector((state) => state.adminControl);
     const [visible, setVisible] = useState(false);
+    const [selectedCampaign, setSelectedCampaign] = useState(null);
+    const [content, setContent] = useState('');
     const navigate = useNavigate();
-    const dispatch = useDispatch(); // For dispatching actions
-
-    const getPendingBloggers = () => {
-        setLoading(true);
-        axios
-            .get('http://92.113.26.138:8081/api/admin/campaign/to-bloger', {
-                headers: {
-                    Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQGdtYWlsLmNvbSIsImlhdCI6MTcyNzAzNzU3OH0.qniheG9oh3ZJw94BaaxIhVI2ojEDJz30T-unVRZ6QQs`,
-                },
-            })
-            .then((response) => {
-                setCampaigns(response.data);
-                setLoading(false);
-            })
-            .catch((err) => {
-                setLoading(false);
-                console.log(err);
-            });
-    };
-
     useEffect(() => {
-        getPendingBloggers();
-    }, []);
+        // Fetch the blogger reply when the component loads
+        dispatch(getBloggerReply());
+    }, [dispatch]);
 
-    // Handle when a campaign is clicked to edit its content
+    // Debugging: log the blogger reply data to ensure it's being loaded
+    console.log("Blogger Reply Data: ", bloggerReply);
+
     const handleCampaignClick = (campaign) => {
         setSelectedCampaign(campaign);
-        setContent(campaign.content || ''); // Set the initial content of the selected campaign
-        setVisible(true);
+        setContent(campaign.content || '');
+        setVisible(true); // Open the modal
     };
 
-    // Handle the blogger profile view
-    const getBlogger = async (id) => {
-        try {
-            const response = await axios.get(`http://92.113.26.138:8081/api/bloger/${id}`);
-            navigate('/users/profile', { state: response.data });
-        } catch (err) {
-            console.error(err);
-        }
-    };
-
-    // Handle form submission to update the campaign
     const handleFormSubmit = (e) => {
         e.preventDefault();
 
@@ -73,21 +44,31 @@ function Pending() {
             adminApprovalClient: true,
             campaignUrl: selectedCampaign.campaignUrl,
             adminApprovalBloger: false,
-            id: selectedCampaign.id
+            id: selectedCampaign.id,
         };
 
+        console.log("Submitting Content Body: ", contentBody); // Debugging: check the body
+
         // Dispatch the async action to update the campaign
-        dispatch(adminToBloger({ contentBody }))
-            .unwrap()
-            .then(() => {
-                getPendingBloggers()
-                setVisible(false);
+        dispatch(adminToClient({ contentBody }))
+            .unwrap() // Unwraps the response or error
+            .then((response) => {
+                console.log('Campaign successfully updated:', response);
+                dispatch(getBloggerReply()); // Reload the updated blogger replies
+                setVisible(false); // Close the modal
             })
             .catch((err) => {
                 console.error('Error updating the campaign:', err);
             });
     };
-    console.log(campaigns)
+    const getBlogger = async (id) => {
+        try {
+            const response = await axios.get(`http://92.113.26.138:8081/api/bloger/${id}`);
+            navigate('/users/profile', { state: response.data });
+        } catch (err) {
+            console.error(err);
+        }
+    };
     return (
         <div className="container-fluid d-flex justify-content-center">
             {loading ? (
@@ -107,23 +88,29 @@ function Pending() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {campaigns.map((campaign, index) => (
-                                    <tr key={index}>
-                                        <th scope="row">{index + 1}</th>
-                                        <td className="d-flex align-self-center gap-1" onClick={() => getBlogger(campaign.blogerId)} style={{ cursor: 'pointer' }}>
-                                            <img className="rounded-circle" src={campaign.avatar || avatar} alt="." width={25} />
-                                            <p className="m-0">{campaign.blogerName || 'bloger Name'}</p>
-                                        </td>
-                                        <td>{campaign.clientName || 'client Name'}</td>
-                                        <td>
-                                            <FaRegEdit
-                                                size={25}
-                                                style={{ cursor: 'pointer' }}
-                                                onClick={() => handleCampaignClick(campaign)} // Set selected campaign and open modal
-                                            />
-                                        </td>
+                                {bloggerReply.length > 0 ? bloggerReply
+                                    .filter((campaign) => campaign.blogerStatus === 'Accepted')
+                                    .map((campaign, index) => (
+                                        <tr key={index}>
+                                            <th scope="row">{index + 1}</th>
+                                            <td className="d-flex align-self-center gap-1" onClick={() => getBlogger(campaign.blogerId)} style={{ cursor: 'pointer' }}>
+                                                <img className="rounded-circle" src={campaign.blogerImage || avatar} alt="." width={25} />
+                                                <p className="m-0">{campaign.blogerName || 'Blogger Name'}</p>
+                                            </td>
+                                            <td>{campaign.clientName || 'Client Name'}</td>
+                                            <td>
+                                                <FaRegEdit
+                                                    size={25}
+                                                    style={{ cursor: 'pointer' }}
+                                                    onClick={() => handleCampaignClick(campaign)} // Set selected campaign and open modal
+                                                />
+                                            </td>
+                                        </tr>
+                                    )) : (
+                                    <tr>
+                                        <td colSpan="4" className="text-center">No data available</td>
                                     </tr>
-                                ))}
+                                )}
                             </tbody>
                         </table>
                     </div>
@@ -135,11 +122,9 @@ function Pending() {
                         </CModalHeader>
                         <CModalBody>
                             {selectedCampaign ? (
-                                <form onSubmit={handleFormSubmit} >
+                                <form onSubmit={handleFormSubmit}>
                                     <div className="mb-3">
-                                        <label htmlFor="content" className="form-label">
-                                            Campaign Content
-                                        </label>
+                                        <label htmlFor="content" className="form-label">Campaign Content</label>
                                         <textarea
                                             type="text"
                                             className="form-control"
@@ -149,18 +134,14 @@ function Pending() {
                                             style={{ height: '100px' }}
                                         />
                                     </div>
-                                    <CButton type="submit" color="primary">
-                                        Save Changes
-                                    </CButton>
+                                    <CButton type="submit" color="primary">Save Changes</CButton>
                                 </form>
                             ) : (
                                 <p>No campaign selected.</p>
                             )}
                         </CModalBody>
                         <CModalFooter>
-                            <CButton color="secondary" onClick={() => setVisible(false)}>
-                                Close
-                            </CButton>
+                            <CButton color="secondary" onClick={() => setVisible(false)}>Close</CButton>
                         </CModalFooter>
                     </CModal>
                 </div>
@@ -169,4 +150,4 @@ function Pending() {
     );
 }
 
-export default Pending;
+export default Accepted;

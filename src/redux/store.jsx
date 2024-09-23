@@ -3,6 +3,7 @@ import blogReducer from './slices/Bloggers';
 import Category from "./slices/Category";
 import userReducer from "./slices/GetUser";
 import changeStateReducer from './slices/changeStateSlice';
+import AdminControl from "./slices/AdminControl";
 const initialState = {
     sidebarShow: true,
     theme: 'light',
@@ -23,6 +24,7 @@ const store = configureStore({
         Category: Category,
         user: userReducer,
         changeState: changeStateReducer,
+        adminControl: AdminControl
     },
 });
 
