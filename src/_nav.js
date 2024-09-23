@@ -1,6 +1,7 @@
 import React from 'react'
 import CIcon from '@coreui/icons-react'
 import {
+  cibCampaignMonitor,
   cilSpeedometer,
   cilStar,
   cilUser
@@ -37,6 +38,29 @@ const _nav = [
         component: CNavItem,
         name: 'bloggers',
         to: '/users/bloggers',
+      },
+    ],
+  },
+  {
+    component: CNavGroup,
+    name: 'campagin',
+    to: '/campagin',
+    icon: <CIcon icon={cibCampaignMonitor} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'pending',
+        to: '/campagin/pending',
+      },
+      {
+        component: CNavItem,
+        name: 'compeleted',
+        to: '/campagin/compeleted',
+      },
+      {
+        component: CNavItem,
+        name: 'rejected',
+        to: '/campagin/rejected',
       },
     ],
   },

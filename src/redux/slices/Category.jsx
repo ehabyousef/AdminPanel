@@ -15,7 +15,7 @@ export const fetchCategory = createAsyncThunk(
     'bloggers/fetchCategory',
     async ({ category, page, size }, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`http://localhost:8080/api/category/${category}`, {
+            const response = await axios.get(`http://92.113.26.138:8081/api/category/${category}`, {
                 params: {
                     page,
                     size

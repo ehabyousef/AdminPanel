@@ -15,10 +15,10 @@ export const fetchUser = createAsyncThunk(
     async ({ token, email }, { rejectWithValue }) => {
         try {
             const response = await axios.get(
-                `http://localhost:8080/api/profile?email=${email}`,
+                `http://92.113.26.138:8081/api/profile?email=${email}`,
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQGdtYWlsLmNvbSIsImlhdCI6MTcyNzAzNzU3OH0.qniheG9oh3ZJw94BaaxIhVI2ojEDJz30T-unVRZ6QQs`,
                     },
                 }
             );
@@ -37,10 +37,10 @@ export const fetchBlogger = createAsyncThunk(
     async ({ token, email }, { rejectWithValue }) => {
         try {
             const response = await axios.get(
-                `http://localhost:8080/api/profile/bloger?email=${email}`,
+                `http://92.113.26.138:8081/api/profile/bloger?email=${email}`,
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQGdtYWlsLmNvbSIsImlhdCI6MTcyNzAzNzU3OH0.qniheG9oh3ZJw94BaaxIhVI2ojEDJz30T-unVRZ6QQs`,
                     },
                 }
             );

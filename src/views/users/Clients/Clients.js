@@ -23,7 +23,7 @@ function Clients() {
             {loading ?
                 <div className="col-12 col-md-9 d-flex justify-content-center align-items-center text-center gap-3 h-100">loading...</div>
                 :
-                <div className="col-12 col-md-9 d-flex flex-column gap-3">
+                <div className="col-12 col-md-9 d-flex flex-column gap-3 w-100">
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
