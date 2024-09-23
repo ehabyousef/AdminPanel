@@ -1,8 +1,8 @@
 import React from 'react'
-import Compeleted from './views/campagin/compeleted/Compeleted'
 import Rejected from './views/campagin/rejected/Rejected'
 import Pending from './views/campagin/Pending/Pending'
 import Accepted from './views/campagin/Accepted/Accepted'
+import Compeleted from './views/campagin/compeleted/compeleted'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 
