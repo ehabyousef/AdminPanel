@@ -7,7 +7,7 @@ import { adminToClient, getBloggerReply } from '../../../redux/slices/AdminContr
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function Rejected() {
+function Refused() {
     const dispatch = useDispatch();
     const { bloggerReply, loading, error } = useSelector((state) => state.adminControl);
     const [visible, setVisible] = useState(false);
@@ -151,4 +151,4 @@ function Rejected() {
     );
 }
 
-export default Rejected
+export default Refused
