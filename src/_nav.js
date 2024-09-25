@@ -71,13 +71,13 @@ const _nav = [
   },
   {
     component: CNavGroup,
-    name: 'Pages',
+    name: 'categries',
     icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
-        name: 'Login',
-        to: '/login',
+        name: 'categries',
+        to: '/categries/categries',
       },
     ],
   },

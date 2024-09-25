@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'; // For dispatching actions and accessing the state
 import { FaRegEdit } from 'react-icons/fa';
-import avatar from '../../../assets/images/avatars/1.jpg';
+import avatar from '../../../assets/images/avatars/2.jpg';
 import { CButton, CModal, CModalBody, CModalFooter, CModalHeader, CModalTitle } from '@coreui/react';
 import { adminToClient, getBloggerReply } from '../../../redux/slices/AdminControl';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { getToken } from '../../../redux/slices/GetUser';
 
 function Refused() {
     const dispatch = useDispatch();
@@ -14,13 +15,14 @@ function Refused() {
     const [selectedCampaign, setSelectedCampaign] = useState(null);
     const [content, setContent] = useState('');
     const navigate = useNavigate();
+    const TheToken = useSelector(getToken);
     useEffect(() => {
         // Fetch the blogger reply when the component loads
-        dispatch(getBloggerReply());
+        dispatch(getBloggerReply({ TheToken }));
     }, [dispatch]);
 
     // Debugging: log the blogger reply data to ensure it's being loaded
-    console.log("Blogger Reply Data: ", bloggerReply);
+    
 
     const handleCampaignClick = (campaign) => {
         setSelectedCampaign(campaign);
@@ -47,14 +49,14 @@ function Refused() {
             id: selectedCampaign.id,
         };
 
-        console.log("Submitting Content Body: ", contentBody); // Debugging: check the body
+         // Debugging: check the body
 
         // Dispatch the async action to update the campaign
-        dispatch(adminToClient({ contentBody }))
+        dispatch(adminToClient({ contentBody, TheToken }))
             .unwrap() // Unwraps the response or error
             .then((response) => {
-                console.log('Campaign successfully updated:', response);
-                dispatch(getBloggerReply()); // Reload the updated blogger replies
+                
+                dispatch(getBloggerReply({ TheToken }));
                 setVisible(false); // Close the modal
             })
             .catch((err) => {

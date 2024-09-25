@@ -3,26 +3,28 @@ import { useDispatch, useSelector } from 'react-redux'; // For dispatching actio
 import { FaRegEdit } from 'react-icons/fa';
 import { GrView } from 'react-icons/gr';
 import { Link, useNavigate } from 'react-router-dom';
-import avatar from '../../../assets/images/avatars/1.jpg';
+import avatar from '../../../assets/images/avatars/2.jpg';
 import { CButton, CModal, CModalBody, CModalFooter, CModalHeader, CModalTitle } from '@coreui/react';
 import { adminToBloger } from '../../../redux/slices/AdminControl';
 import axios from 'axios';
+import { getToken } from '../../../redux/slices/GetUser';
 
 function Pending() {
     const [loading, setLoading] = useState(false);
     const [campaigns, setCampaigns] = useState([]);
-    const [selectedCampaign, setSelectedCampaign] = useState(null); // State to hold the selected campaign
-    const [content, setContent] = useState(''); // To hold the edited campaign content
+    const [selectedCampaign, setSelectedCampaign] = useState(null);
+    const [content, setContent] = useState('');
     const [visible, setVisible] = useState(false);
     const navigate = useNavigate();
-    const dispatch = useDispatch(); // For dispatching actions
-
+    const dispatch = useDispatch();
+    const TheToken = useSelector(getToken);
+    
     const getPendingBloggers = () => {
         setLoading(true);
         axios
             .get('http://92.113.26.138:8081/api/admin/campaign/to-bloger', {
                 headers: {
-                    Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQGdtYWlsLmNvbSIsImlhdCI6MTcyNzAzNzU3OH0.qniheG9oh3ZJw94BaaxIhVI2ojEDJz30T-unVRZ6QQs`,
+                    Authorization: `Bearer ${TheToken}`,
                 },
             })
             .then((response) => {
@@ -31,7 +33,7 @@ function Pending() {
             })
             .catch((err) => {
                 setLoading(false);
-                console.log(err);
+                
             });
     };
 
@@ -77,7 +79,7 @@ function Pending() {
         };
 
         // Dispatch the async action to update the campaign
-        dispatch(adminToBloger({ contentBody }))
+        dispatch(adminToBloger({ contentBody, TheToken }))
             .unwrap()
             .then(() => {
                 getPendingBloggers()
@@ -87,7 +89,7 @@ function Pending() {
                 console.error('Error updating the campaign:', err);
             });
     };
-    console.log(campaigns)
+    
     return (
         <div className="container-fluid d-flex justify-content-center">
             {loading ? (
@@ -111,7 +113,7 @@ function Pending() {
                                     <tr key={index}>
                                         <th scope="row">{index + 1}</th>
                                         <td className="d-flex align-self-center gap-1" onClick={() => getBlogger(campaign.blogerId)} style={{ cursor: 'pointer' }}>
-                                            <img className="rounded-circle" src={campaign.avatar || avatar} alt="." width={25} />
+                                            <img className="rounded-circle" src={campaign.blogerImage || avatar} alt="." width={25} />
                                             <p className="m-0">{campaign.blogerName || 'bloger Name'}</p>
                                         </td>
                                         <td>{campaign.clientName || 'client Name'}</td>

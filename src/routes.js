@@ -7,6 +7,7 @@ const Compeleted = React.lazy(() => import('./views/campagin/Done/Done'))
 const Accepted = React.lazy(() => import('./views/campagin/Accepted/Accepted'))
 const Rejected = React.lazy(() => import('./views/campagin/Refused/Refused'))
 const Pending = React.lazy(() => import('./views/campagin/Pending/Pending'))
+const Categries = React.lazy(() => import('./views/Categries/Categries'))
 
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
@@ -20,6 +21,7 @@ const routes = [
   { path: '/campagin/accepted', name: 'accepted', element: Accepted },
   { path: '/campagin/rejected', name: 'rejected', element: Rejected },
   { path: '/campagin/compeleted', name: 'compeleted', element: Compeleted },
+  { path: '/categries/categries', name: 'categries', element: Categries },
   { path: '/widgets', name: 'Widgets', element: Widgets },
 ]
 

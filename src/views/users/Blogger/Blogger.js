@@ -20,13 +20,13 @@ function Blogger() {
         setCurrentPage(value - 1);
     };
     return (
-        <div class="container-fluid d-flex justify-content-center">
+        <div className="container-fluid d-flex justify-content-center">
             {loading ?
                 <div className="col-12 col-md-9 d-flex justify-content-center align-items-center text-center gap-3 h-100">loading...</div>
                 :
                 <div className="col-12 col-md-9 d-flex flex-column gap-3 w-100">
-                    <div class="table-responsive">
-                        <table class="table table-striped">
+                    <div className="table-responsive">
+                        <table className="table table-striped">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>

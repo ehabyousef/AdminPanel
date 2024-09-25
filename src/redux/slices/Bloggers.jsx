@@ -35,11 +35,11 @@ export const fetchBlogs = createAsyncThunk(
 // Create an async thunk to fetch users
 export const fetchUsers = createAsyncThunk(
     'blogs/fetchUSers',
-    async ({ token, page = 0, size = 9 }, { rejectWithValue }) => {
+    async ({ TheToken, page = 0, size = 9 }, { rejectWithValue }) => {
         try {
             const response = await axios.get(`http://92.113.26.138:8081/api/users?page=${page}&size=${size}`, {
                 headers: {
-                    Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQGdtYWlsLmNvbSIsImlhdCI6MTcyNzAzNzU3OH0.qniheG9oh3ZJw94BaaxIhVI2ojEDJz30T-unVRZ6QQs`,
+                    Authorization: `Bearer ${TheToken}`,
                 },
             });
             return response.data;

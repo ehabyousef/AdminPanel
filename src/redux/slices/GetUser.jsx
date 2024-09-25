@@ -18,7 +18,7 @@ export const fetchUser = createAsyncThunk(
                 `http://92.113.26.138:8081/api/profile?email=${email}`,
                 {
                     headers: {
-                        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQGdtYWlsLmNvbSIsImlhdCI6MTcyNzAzNzU3OH0.qniheG9oh3ZJw94BaaxIhVI2ojEDJz30T-unVRZ6QQs`,
+                        Authorization: `Bearer ${token}`,
                     },
                 }
             );
@@ -40,7 +40,7 @@ export const fetchBlogger = createAsyncThunk(
                 `http://92.113.26.138:8081/api/profile/bloger?email=${email}`,
                 {
                     headers: {
-                        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQGdtYWlsLmNvbSIsImlhdCI6MTcyNzAzNzU3OH0.qniheG9oh3ZJw94BaaxIhVI2ojEDJz30T-unVRZ6QQs`,
+                        Authorization: `Bearer ${token}`,
                     },
                 }
             );

@@ -43,7 +43,7 @@ import {
   cilUserFemale,
 } from '@coreui/icons'
 
-import avatar1 from 'src/assets/images/avatars/1.jpg'
+import avatar1 from 'src/assets/images/avatars/2.jpg'
 import avatar2 from 'src/assets/images/avatars/2.jpg'
 import avatar3 from 'src/assets/images/avatars/3.jpg'
 import avatar4 from 'src/assets/images/avatars/4.jpg'
