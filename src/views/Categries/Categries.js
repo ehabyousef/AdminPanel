@@ -131,7 +131,7 @@ function Categories() {
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan="4" className="text-center">Loading categories or No categories available</td>
+                                        <td colSpan="4" className="text-center">Loading categories . . .</td>
                                     </tr>
                                 )}
                             </tbody>
