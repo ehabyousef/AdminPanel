@@ -4,6 +4,7 @@ import axios from 'axios';
 const initialState = {
     bloggerReply: [],
     categories: [],
+    paid: [],
     loading: false,
     error: null,
 };
@@ -58,7 +59,18 @@ export const adminToClient = createAsyncThunk(
         }
     }
 );
-
+// Create an async thunk to fetch paid to blogger
+export const clientPaid = createAsyncThunk(
+    'campagins/clientPaid',
+    async ({ id }, { rejectWithValue }) => {
+        try {
+            const response = await axios.get(`http://92.113.26.138:8081/api/bloger/paid-campaign?blogerId=${id}`);
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response ? error.response.data : error.message);
+        }
+    }
+);
 // Create an async thunk to get categories
 export const getAllCategories = createAsyncThunk(
     'admin/getAllCategories',
@@ -156,6 +168,19 @@ const adminControlSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
+            // get paid
+            .addCase(clientPaid.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(clientPaid.fulfilled, (state, action) => {
+                state.loading = false;
+                state.paid = action.payload;
+            })
+            .addCase(clientPaid.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
             // Get categories
             .addCase(getAllCategories.pending, (state) => {
                 state.loading = true;
@@ -216,4 +241,5 @@ const adminControlSlice = createSlice({
 
 // Export the reducer and selector
 export const allCategories = (state) => state.adminControl.categories;
+export const paidCampagins = (state) => state.adminControl.paid
 export default adminControlSlice.reducer;

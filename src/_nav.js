@@ -49,7 +49,7 @@ const _nav = [
     items: [
       {
         component: CNavItem,
-        name: 'pending',
+        name: 'requested',
         to: '/campagin/pending',
       },
       {
@@ -64,7 +64,17 @@ const _nav = [
       },
       {
         component: CNavItem,
-        name: 'compeleted',
+        name: 'paid',
+        to: '/campagin/paid',
+      },
+      {
+        component: CNavItem,
+        name: 'live',
+        to: '/campagin/live',
+      },
+      {
+        component: CNavItem,
+        name: 'done',
         to: '/campagin/compeleted',
       },
     ],

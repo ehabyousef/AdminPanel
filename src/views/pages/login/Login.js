@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   CButton,
   CCard,
@@ -12,64 +12,58 @@ import {
   CInputGroup,
   CInputGroupText,
   CRow,
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { cilLockLocked, cilUser } from '@coreui/icons'
-import { useDispatch } from 'react-redux'
-import axios from 'axios'
-import Swal from 'sweetalert2'
-import { checkAdmin } from '../../../redux/slices/GetUser'
+} from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import { cilLockLocked, cilUser } from '@coreui/icons';
+import { useDispatch, useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
+import { adminLogin, getAdmin } from '../../../redux/slices/GetUser';
 
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    email: "",
-    password: ""
+    email: '',
+    password: '',
   });
   const dispatch = useDispatch();
-
+  const [loading, setLoading] = useState(false);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-
   };
-  const [loading, setLoading] = useState(false); // Add loading state
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+  const handleLogin = () => {
     setLoading(true);
-    axios.post('http://92.113.26.138:8081/api/signin/admin', formData)
+    dispatch(adminLogin({ formData }))
+      .unwrap()
       .then((res) => {
         const Toast = Swal.mixin({
           toast: true,
-          position: "top-end",
+          position: 'top-end',
           showConfirmButton: false,
           timer: 1500,
           timerProgressBar: true,
         });
         setLoading(false);
         Toast.fire({
-          icon: "success",
-          title: 'Login successfully'
+          icon: 'success',
+          title: 'Login successfully',
         });
-        const receivedToken = res.data.token;
-        dispatch(checkAdmin(receivedToken));
-        if (res.data.intent === 'admin') {
-          navigate('/')
+        if (res.intent === 'admin') {
+          navigate('/');
         }
-        console.log(res.data)
       })
       .catch((err) => {
         const Toast = Swal.mixin({
           toast: true,
-          position: "top-end",
+          position: 'top-end',
           showConfirmButton: false,
           timer: 1500,
           timerProgressBar: true,
         });
         Toast.fire({
-          icon: "error",
-          title: err.response.data.errorMessage
+          icon: 'error',
+          title: 'Login failed',
         });
         setLoading(false);
       });
@@ -83,14 +77,20 @@ const Login = () => {
             <CCardGroup>
               <CCard className="p-4 text-center">
                 <CCardBody>
-                  <CForm >
+                  <CForm>
                     <h1>Login</h1>
                     <p className="text-body-secondary">Sign In to your account</p>
                     <CInputGroup className="mb-3">
                       <CInputGroupText>
                         <CIcon icon={cilUser} />
                       </CInputGroupText>
-                      <CFormInput placeholder="Username" autoComplete="username" name="email" value={formData.email} onChange={handleChange} />
+                      <CFormInput
+                        placeholder="Username"
+                        autoComplete="username"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                      />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupText>
@@ -100,7 +100,7 @@ const Login = () => {
                         type="password"
                         placeholder="Password"
                         autoComplete="current-password"
-                        name='password'
+                        name="password"
                         value={formData.password}
                         onChange={handleChange}
                       />
@@ -120,7 +120,7 @@ const Login = () => {
         </CRow>
       </CContainer>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

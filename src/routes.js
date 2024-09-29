@@ -1,4 +1,6 @@
 import React from 'react'
+import Live from './views/campagin/Live/Live'
+import Paid from './views/campagin/Paid/Paid'
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const clients = React.lazy(() => import('./views/users/Clients/Clients'))
 const bloggers = React.lazy(() => import('./views/users/Blogger/Blogger'))
@@ -20,6 +22,8 @@ const routes = [
   { path: '/campagin/pending', name: 'pending', element: Pending },
   { path: '/campagin/accepted', name: 'accepted', element: Accepted },
   { path: '/campagin/rejected', name: 'rejected', element: Rejected },
+  { path: '/campagin/live', name: 'live', element: Live },
+  { path: '/campagin/paid', name: 'paid', element: Paid },
   { path: '/campagin/compeleted', name: 'compeleted', element: Compeleted },
   { path: '/categries/categries', name: 'categries', element: Categries },
   { path: '/widgets', name: 'Widgets', element: Widgets },
