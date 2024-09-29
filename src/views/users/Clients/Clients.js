@@ -7,12 +7,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchUsers } from '../../../redux/slices/Bloggers';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-import { getToken } from '../../../redux/slices/GetUser';
+import { getAdminLoged } from '../../../redux/slices/GetUser';
 function Clients() {
     const { users, loading, error, page, size } = useSelector((state) => state.Bloggers);
     const [currentPage, setCurrentPage] = useState(0);
     const dispatch = useDispatch();
-    const TheToken = useSelector(getToken);
+    const TheToken = useSelector(getAdminLoged);
     useEffect(() => {
         dispatch(fetchUsers({ page: currentPage, size, TheToken }));
     }, [dispatch, currentPage, size]);

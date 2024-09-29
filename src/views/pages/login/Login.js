@@ -18,7 +18,7 @@ import { cilLockLocked, cilUser } from '@coreui/icons'
 import { useDispatch } from 'react-redux'
 import axios from 'axios'
 import Swal from 'sweetalert2'
-import { fetchBlogger, fetchUser, setToken } from '../../../redux/slices/GetUser'
+import { checkAdmin } from '../../../redux/slices/GetUser'
 
 const Login = () => {
   const navigate = useNavigate();
@@ -33,26 +33,12 @@ const Login = () => {
     setFormData({ ...formData, [name]: value });
 
   };
-
-  const fetchUserData = async (token) => {
-    if (!token) return;
-    try {
-      dispatch(
-        fetchUser({ token, email: formData.email })
-      );
-      dispatch(
-        fetchBlogger({ token, email: formData.email })
-      );
-    } catch (error) {
-      console.error("Failed to fetch user:");
-    }
-  };
   const [loading, setLoading] = useState(false); // Add loading state
 
   const handleLogin = (e) => {
     e.preventDefault();
     setLoading(true);
-    axios.post('http://92.113.26.138:8081/api/signin', formData)
+    axios.post('http://92.113.26.138:8081/api/signin/admin', formData)
       .then((res) => {
         const Toast = Swal.mixin({
           toast: true,
@@ -60,10 +46,6 @@ const Login = () => {
           showConfirmButton: false,
           timer: 1500,
           timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.onmouseenter = Swal.stopTimer;
-            toast.onmouseleave = Swal.resumeTimer;
-          }
         });
         setLoading(false);
         Toast.fire({
@@ -71,10 +53,11 @@ const Login = () => {
           title: 'Login successfully'
         });
         const receivedToken = res.data.token;
-        fetchUserData(receivedToken);
-        dispatch(setToken(receivedToken));
-        navigate('/')
-
+        dispatch(checkAdmin(receivedToken));
+        if (res.data.intent === 'admin') {
+          navigate('/')
+        }
+        console.log(res.data)
       })
       .catch((err) => {
         const Toast = Swal.mixin({
@@ -83,10 +66,6 @@ const Login = () => {
           showConfirmButton: false,
           timer: 1500,
           timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.onmouseenter = Swal.stopTimer;
-            toast.onmouseleave = Swal.resumeTimer;
-          }
         });
         Toast.fire({
           icon: "error",

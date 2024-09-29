@@ -6,7 +6,7 @@ import { CButton, CModal, CModalBody, CModalFooter, CModalHeader, CModalTitle } 
 import { adminToClient, getBloggerReply } from '../../../redux/slices/AdminControl';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { getToken } from '../../../redux/slices/GetUser';
+import { getAdminLoged, } from '../../../redux/slices/GetUser';
 
 function Refused() {
     const dispatch = useDispatch();
@@ -15,7 +15,7 @@ function Refused() {
     const [selectedCampaign, setSelectedCampaign] = useState(null);
     const [content, setContent] = useState('');
     const navigate = useNavigate();
-    const TheToken = useSelector(getToken);
+    const TheToken = useSelector(getAdminLoged);
     useEffect(() => {
         // Fetch the blogger reply when the component loads
         dispatch(getBloggerReply({ TheToken }));

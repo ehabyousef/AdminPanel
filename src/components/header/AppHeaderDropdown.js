@@ -11,17 +11,19 @@ import CIcon from '@coreui/icons-react'
 
 import avatar8 from './../../assets/images/avatars/2.jpg'
 import { cilAccountLogout } from '@coreui/icons'
-import { getToken, logoutUser } from '../../redux/slices/GetUser'
+import { getAdminLoged, logoutUser } from '../../redux/slices/GetUser'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const AppHeaderDropdown = () => {
-  const TheToken = useSelector(getToken);
+  const TheToken = useSelector(getAdminLoged);
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const handleLogout = () => {
     dispatch(logoutUser());
     navigate('/login#/login')
   }
-  
+
   return (
     <div className='d-flex align-items-center justify-content-center '>
       {TheToken ?

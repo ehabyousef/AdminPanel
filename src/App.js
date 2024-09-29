@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 
 import { CSpinner, useColorModes } from '@coreui/react'
 import './scss/style.scss'
-import { getToken } from './redux/slices/GetUser'
+import { getAdminLoged } from './redux/slices/GetUser'
 
 // Containers
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
@@ -17,7 +17,7 @@ const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
 const App = () => {
   const { isColorModeSet, setColorMode } = useColorModes('coreui-free-react-admin-template-theme')
   const storedTheme = useSelector((state) => state.theme)
-  const TheToken = useSelector(getToken);
+  const getAdmin = useSelector(getAdminLoged);
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.href.split('?')[1])
     const theme = urlParams.get('theme') && urlParams.get('theme').match(/^[A-Za-z0-9\s]+/)[0]
@@ -31,7 +31,6 @@ const App = () => {
 
     setColorMode(storedTheme)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
-  console.log(TheToken)
   return (
     <HashRouter>
       <Suspense
@@ -46,7 +45,7 @@ const App = () => {
           <Route exact path="/login" name="Login Page" element={<Login />} />
           <Route exact path="/404" name="Page 404" element={<Page404 />} />
           <Route exact path="/500" name="Page 500" element={<Page500 />} />
-          {TheToken && TheToken !== null ? (
+          {getAdmin && getAdmin !== null ? (
             <Route path="*" name="Home" element={<DefaultLayout />} />
           ) : (
             <Route path="*" name="Login Page" element={<Login />} />

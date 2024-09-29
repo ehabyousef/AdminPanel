@@ -7,7 +7,7 @@ import avatar from '../../../assets/images/avatars/2.jpg';
 import { CButton, CModal, CModalBody, CModalFooter, CModalHeader, CModalTitle } from '@coreui/react';
 import { adminToBloger } from '../../../redux/slices/AdminControl';
 import axios from 'axios';
-import { getToken } from '../../../redux/slices/GetUser';
+import { getAdminLoged, } from '../../../redux/slices/GetUser';
 
 function Pending() {
     const [loading, setLoading] = useState(false);
@@ -17,7 +17,7 @@ function Pending() {
     const [visible, setVisible] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const TheToken = useSelector(getToken);
+    const TheToken = useSelector(getAdminLoged);
 
     const getPendingBloggers = () => {
         setLoading(true);
@@ -135,14 +135,14 @@ function Pending() {
                     {/* Modal */}
                     <CModal alignment="center" visible={visible} onClose={() => setVisible(false)}>
                         <CModalHeader>
-                                <CModalTitle>Edit Campaign Description</CModalTitle>
+                            <CModalTitle>Edit Campaign Description</CModalTitle>
                         </CModalHeader>
                         <CModalBody>
                             {selectedCampaign ? (
                                 <form  >
                                     <div className="mb-3">
                                         <label htmlFor="content" className="form-label">
-                                                Campaign Description
+                                            Campaign Description
                                         </label>
                                         <textarea
                                             type="text"
@@ -159,11 +159,8 @@ function Pending() {
                             )}
                         </CModalBody>
                         <CModalFooter>
-                            <CButton type="submit" color="primary" onClick={handleFormSubmit}>
+                                <CButton type="submit" color="success" onClick={handleFormSubmit}>
                                 Save Changes
-                            </CButton>
-                            <CButton color="secondary" onClick={() => setVisible(false)}>
-                                Close
                             </CButton>
                         </CModalFooter>
                     </CModal>

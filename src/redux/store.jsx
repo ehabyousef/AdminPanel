@@ -21,7 +21,6 @@ const changeState = (state = initialState, { type, ...rest }) => {
 const store = configureStore({
     reducer: {
         Bloggers: blogReducer,
-        // Category: Category,
         user: userReducer,
         changeState: changeStateReducer,
         adminControl: AdminControl
