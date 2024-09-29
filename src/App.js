@@ -31,7 +31,7 @@ const App = () => {
 
     setColorMode(storedTheme)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
+  console.log(TheToken)
   return (
     <HashRouter>
       <Suspense
@@ -46,7 +46,7 @@ const App = () => {
           <Route exact path="/login" name="Login Page" element={<Login />} />
           <Route exact path="/404" name="Page 404" element={<Page404 />} />
           <Route exact path="/500" name="Page 500" element={<Page500 />} />
-          {TheToken ? (
+          {TheToken && TheToken !== null ? (
             <Route path="*" name="Home" element={<DefaultLayout />} />
           ) : (
             <Route path="*" name="Login Page" element={<Login />} />

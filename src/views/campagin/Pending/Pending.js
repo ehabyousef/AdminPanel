@@ -18,7 +18,7 @@ function Pending() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const TheToken = useSelector(getToken);
-    
+
     const getPendingBloggers = () => {
         setLoading(true);
         axios
@@ -33,7 +33,7 @@ function Pending() {
             })
             .catch((err) => {
                 setLoading(false);
-                
+
             });
     };
 
@@ -44,7 +44,7 @@ function Pending() {
     // Handle when a campaign is clicked to edit its content
     const handleCampaignClick = (campaign) => {
         setSelectedCampaign(campaign);
-        setContent(campaign.content || ''); // Set the initial content of the selected campaign
+        setContent(campaign.campaignDescription || ''); // Set the initial content of the selected campaign
         setVisible(true);
     };
 
@@ -89,7 +89,7 @@ function Pending() {
                 console.error('Error updating the campaign:', err);
             });
     };
-    
+    console.log(campaigns)
     return (
         <div className="container-fluid d-flex justify-content-center">
             {loading ? (
@@ -104,7 +104,8 @@ function Pending() {
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Blogger</th>
-                                    <th scope="col">Client</th>
+                                    <th scope="col">Client Email</th>
+                                    <th scope="col">from</th>
                                     <th scope="col">Handle</th>
                                 </tr>
                             </thead>
@@ -116,7 +117,8 @@ function Pending() {
                                             <img className="rounded-circle" src={campaign.blogerImage || avatar} alt="." width={25} />
                                             <p className="m-0">{campaign.blogerName || 'bloger Name'}</p>
                                         </td>
-                                        <td>{campaign.clientName || 'client Name'}</td>
+                                        <td>{campaign.createdBy || 'client mail'}</td>
+                                        <td>{campaign.from || 'date'}</td>
                                         <td>
                                             <FaRegEdit
                                                 size={25}
@@ -133,14 +135,14 @@ function Pending() {
                     {/* Modal */}
                     <CModal alignment="center" visible={visible} onClose={() => setVisible(false)}>
                         <CModalHeader>
-                            <CModalTitle>Edit Campaign Content</CModalTitle>
+                                <CModalTitle>Edit Campaign Description</CModalTitle>
                         </CModalHeader>
                         <CModalBody>
                             {selectedCampaign ? (
-                                <form onSubmit={handleFormSubmit} >
+                                <form  >
                                     <div className="mb-3">
                                         <label htmlFor="content" className="form-label">
-                                            Campaign Content
+                                                Campaign Description
                                         </label>
                                         <textarea
                                             type="text"
@@ -151,15 +153,15 @@ function Pending() {
                                             style={{ height: '100px' }}
                                         />
                                     </div>
-                                    <CButton type="submit" color="primary">
-                                        Save Changes
-                                    </CButton>
                                 </form>
                             ) : (
                                 <p>No campaign selected.</p>
                             )}
                         </CModalBody>
                         <CModalFooter>
+                            <CButton type="submit" color="primary" onClick={handleFormSubmit}>
+                                Save Changes
+                            </CButton>
                             <CButton color="secondary" onClick={() => setVisible(false)}>
                                 Close
                             </CButton>

@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import blogReducer from './slices/Bloggers';
-import Category from "./slices/Category";
+// import Category from "./slices/Category";
 import userReducer from "./slices/GetUser";
 import changeStateReducer from './slices/changeStateSlice';
 import AdminControl from "./slices/AdminControl";
@@ -21,7 +21,7 @@ const changeState = (state = initialState, { type, ...rest }) => {
 const store = configureStore({
     reducer: {
         Bloggers: blogReducer,
-        Category: Category,
+        // Category: Category,
         user: userReducer,
         changeState: changeStateReducer,
         adminControl: AdminControl

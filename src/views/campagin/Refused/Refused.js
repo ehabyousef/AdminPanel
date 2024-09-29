@@ -71,7 +71,7 @@ function Refused() {
             console.error(err);
         }
     };
-
+    console.log(bloggerReply)
     return (
         <div className="container-fluid d-flex justify-content-center">
             {loading ? (

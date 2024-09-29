@@ -22,7 +22,7 @@ function Accepted() {
     }, [dispatch]);
 
     // Debugging: log the blogger reply data to ensure it's being loaded
-    
+
 
     const handleCampaignClick = (campaign) => {
         setSelectedCampaign(campaign);
@@ -49,13 +49,13 @@ function Accepted() {
             id: selectedCampaign.id,
         };
 
-         // Debugging: check the body
+        // Debugging: check the body
 
         // Dispatch the async action to update the campaign
         dispatch(adminToClient({ contentBody, TheToken }))
             .unwrap() // Unwraps the response or error
             .then((response) => {
-                
+
                 dispatch(getBloggerReply({ TheToken }));
                 setVisible(false); // Close the modal
             })
@@ -71,6 +71,7 @@ function Accepted() {
             console.error(err);
         }
     };
+    console.log(bloggerReply)
     return (
         <div className="container-fluid d-flex justify-content-center">
             {loading ? (
@@ -91,7 +92,8 @@ function Accepted() {
                             </thead>
                             <tbody>
                                 {bloggerReply.length > 0 ? bloggerReply
-                                    .filter((campaign) => campaign.blogerStatus === 'Accepted')
+                                    .filter((campaign) => campaign.
+                                        blogerStatus === 'Accepted')
                                     .map((campaign, index) => (
                                         <tr key={index}>
                                             <th scope="row">{index + 1}</th>
@@ -124,7 +126,7 @@ function Accepted() {
                         </CModalHeader>
                         <CModalBody>
                             {selectedCampaign ? (
-                                <form onSubmit={handleFormSubmit}>
+                                <form >
                                     <div className="mb-3">
                                         <label htmlFor="content" className="form-label">Campaign Content</label>
                                         <textarea
@@ -136,13 +138,13 @@ function Accepted() {
                                             style={{ height: '100px' }}
                                         />
                                     </div>
-                                    <CButton type="submit" color="primary">Save Changes</CButton>
                                 </form>
                             ) : (
                                 <p>No campaign selected.</p>
                             )}
                         </CModalBody>
                         <CModalFooter>
+                            <CButton type="submit" color="primary" onClick={handleFormSubmit}>Save Changes</CButton>
                             <CButton color="secondary" onClick={() => setVisible(false)}>Close</CButton>
                         </CModalFooter>
                     </CModal>
