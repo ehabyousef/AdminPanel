@@ -45,8 +45,7 @@ function Blogger() {
                                         <td>{blog.email}</td>
                                         <td>{blog.countryOfResidence}</td>
                                         <td>
-                                            <CiEdit />
-                                            <MdDeleteForever />
+                                            <MdDeleteForever size={25} />
                                         </td>
                                         <td>
                                             <Link className='text-decoration-none ' to='/users/profile' state={blog}>

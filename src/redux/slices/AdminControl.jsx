@@ -5,6 +5,8 @@ const initialState = {
     bloggerReply: [],
     categories: [],
     paid: [],
+    live: [],
+    done: [],
     loading: false,
     error: null,
 };
@@ -62,9 +64,45 @@ export const adminToClient = createAsyncThunk(
 // Create an async thunk to fetch paid to blogger
 export const clientPaid = createAsyncThunk(
     'campagins/clientPaid',
-    async ({ id }, { rejectWithValue }) => {
+    async ({ TheToken }, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`http://92.113.26.138:8081/api/bloger/paid-campaign?blogerId=${id}`);
+            const response = await axios.get(`http://92.113.26.138:8081/api/campaign/admin/paid-campaign`, {
+                headers: {
+                    Authorization: `Bearer ${TheToken}`,
+                },
+            });
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response ? error.response.data : error.message);
+        }
+    }
+);
+// Create an async thunk to fetch live campagin
+export const liveCampagin = createAsyncThunk(
+    'campagins/liveCampagin',
+    async ({ TheToken }, { rejectWithValue }) => {
+        try {
+            const response = await axios.get(`http://92.113.26.138:8081/api/campaign/admin/live-campaign`, {
+                headers: {
+                    Authorization: `Bearer ${TheToken}`,
+                },
+            });
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response ? error.response.data : error.message);
+        }
+    }
+);
+// Create an async thunk to fetch done campagin
+export const doneCampagin = createAsyncThunk(
+    'campagins/doneCampagin',
+    async ({ TheToken }, { rejectWithValue }) => {
+        try {
+            const response = await axios.get(`http://92.113.26.138:8081/api/campaign/admin/done-campaign`, {
+                headers: {
+                    Authorization: `Bearer ${TheToken}`,
+                },
+            });
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response ? error.response.data : error.message);
@@ -181,6 +219,32 @@ const adminControlSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
+            // get live
+            .addCase(liveCampagin.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(liveCampagin.fulfilled, (state, action) => {
+                state.loading = false;
+                state.live = action.payload;
+            })
+            .addCase(liveCampagin.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            // get done
+            .addCase(doneCampagin.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(doneCampagin.fulfilled, (state, action) => {
+                state.loading = false;
+                state.live = action.payload;
+            })
+            .addCase(doneCampagin.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
             // Get categories
             .addCase(getAllCategories.pending, (state) => {
                 state.loading = true;
@@ -242,4 +306,6 @@ const adminControlSlice = createSlice({
 // Export the reducer and selector
 export const allCategories = (state) => state.adminControl.categories;
 export const paidCampagins = (state) => state.adminControl.paid
+export const liveCampagins = (state) => state.adminControl.live
+export const doneCampagins = (state) => state.adminControl.done
 export default adminControlSlice.reducer;

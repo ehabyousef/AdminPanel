@@ -9,12 +9,12 @@ function profile() {
     console.log(blogger);
     return (
         <div className="container">
-            <div className="row my-3 justify-content-center">
+            <div className="row my-5">
                 <div
-                    className="col-12 col-md-6 d-flex flex-column position-relative"
-                    style={{ minHeight: "300px" }}
+                    className="col-12 col-md-5 d-flex flex-column position-relative"
+                    style={{ minHeight: "420px" }}
                 >
-                    <div className="position-absolute w-75 h-100">
+                    <div className="position-absolute h-100 my-2" style={{ width: "90%" }}>
                         <img
                             className="rounded-3"
                             src={blogger.image}
@@ -25,15 +25,13 @@ function profile() {
                     </div>
                 </div>
                 <div className="col-12 col-md-6 d-flex flex-column align-items-start mt-4">
-                    <div className="w-100 ">
-                        <p className="fs-3 fw-bold">{blogger.name}</p>
-                    </div>
-                    <p className="fs-4 fw-bold" style={{ color: "var(--burble)" }}>
-                        {blogger.email}
-                    </p>
-                    <div className="d-flex flex-column gap-4">
-                        {blogger.interests ?
-                            <>
+                    <p className="fs-3 fw-bold">{blogger.name}</p>
+                    {blogger.price ?
+                        <>
+                            <p className="fs-4 fw-bold" style={{ color: "var(--burble)" }}>
+                                {blogger.price || '000$'}$
+                            </p>
+                            <div className="d-flex flex-column gap-4">
                                 <div className="d-flex gap-2 align-items-center">
                                     <IoLogoInstagram size={20} color="var(--blue)" />
                                     <p className="m-0">
@@ -52,9 +50,39 @@ function profile() {
                                         {blogger.tiktokFollowers} <span>followers</span>
                                     </p>
                                 </div>
-                            </>
-                            : ''}
+                            </div>
+                        </>
+                        : ""
+                    }
+                    <div className="my-2 d-flex gap-2 align-items-center">
+                        <h5 className="m-0" style={{ color: 'var(--red)' }}>email :</h5>
+                        <p className="m-0 fs-4">{blogger.email}</p>
                     </div>
+                    <div className="my-2 d-flex gap-2 align-items-center">
+                        <h5 className="m-0" style={{ color: 'var(--red)' }}>phone :</h5>
+                        <p className="m-0 fs-4">{blogger.phone}</p>
+                    </div>
+                    {blogger.maritalStatus ?
+                        <div className="my-2 d-flex gap-2 align-items-center">
+                            <h5 className="m-0" style={{ color: 'var(--red)' }}>maritalStatus :</h5>
+                            <p className="m-0 fs-4">{blogger.maritalStatus}</p>
+                        </div>
+                        : ""
+                    }
+                    {blogger.city ?
+                        <div className="my-2 d-flex gap-2 align-items-center">
+                            <h5 className="m-0" style={{ color: 'var(--red)' }}>city :</h5>
+                            <p className="m-0 fs-4">{blogger.city}</p>
+                        </div>
+                        : ""
+                    }
+                    {blogger.language ?
+                        <div className="my-2 d-flex gap-2 align-items-center">
+                            <h5 className="m-0" style={{ color: 'var(--red)' }}>language :</h5>
+                            <p className="m-0 fs-4">{blogger.language}</p>
+                        </div>
+                        : ""
+                    }
                 </div>
             </div>
         </div>

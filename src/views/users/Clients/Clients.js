@@ -44,10 +44,9 @@ function Clients() {
                                         <th scope="row">1</th>
                                         <td>{user.name}</td>
                                         <td>{user.email}</td>
-                                        <td>{user.countryOfResidence}</td>
+                                        <td>{user.country}</td>
                                         <td>
-                                            <CiEdit />
-                                            <MdDeleteForever />
+                                            <MdDeleteForever size={25} />
                                         </td>
                                         <td>
                                             <Link className='text-decoration-none ' to='/users/profile' state={user}>
