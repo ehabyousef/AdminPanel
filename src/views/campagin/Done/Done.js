@@ -23,28 +23,35 @@ function Done() {
                                 <th scope="col">Handle</th>
                             </tr>
                         </thead>
-                        {/* <tbody>
+                        <tbody>
                             {doneCamp.length > 0 ? doneCamp.map((campaign, index) => (
-                                    <tr key={index}>
-                                        <th scope="row">{index + 1}</th>
-                                        <td className="d-flex align-self-center gap-1" onClick={() => getBlogger(campaign.blogerId)} style={{ cursor: 'pointer' }}>
-                                            <img className="rounded-circle" src={campaign.blogerImage || avatar} alt="." width={25} />
-                                            <p className="m-0">{campaign.blogerName || 'Blogger Name'}</p>
-                                        </td>
-                                        <td>{campaign.clientName || 'Client Name'}</td>
-                                        <td>
-                                            <FaRegEdit
-                                                size={25}
-                                                style={{ cursor: 'pointer' }}
-                                            />
-                                        </td>
-                                    </tr>
-                                )) : (
+                                <tr key={index}>
+                                    <th scope="row">{index + 1}</th>
+                                    <td className="d-flex align-self-center gap-1" onClick={() => getBlogger(campaign.blogerId)} style={{ cursor: 'pointer' }}>
+                                        <img className="rounded-circle" src={campaign.blogerImage || avatar} alt="." width={25} />
+                                        <p className="m-0">{campaign.blogerName || 'Blogger Name'}</p>
+                                    </td>
+                                    <td>{campaign.createdBy || 'Client Name'}</td>
+                                    <td>{campaign.from || 'Date'}</td>
+                                    <td>{campaign.to || 'Date'}</td>
+                                    <td>
+                                        <FaRegEdit
+                                            size={25}
+                                            style={{ cursor: 'pointer' }}
+                                        />
+                                    </td>
+                                    <td>
+                                        <Link className='text-decoration-none' to={campaign.campaignUrl} target='_blank'>
+                                            <GrView size={25} color='#0000ff' />
+                                        </Link>
+                                    </td>
+                                </tr>
+                            )) : (
                                 <tr>
                                     <td colSpan="4" className="text-center">No data available</td>
                                 </tr>
                             )}
-                        </tbody> */}
+                        </tbody>
                     </table>
                 </div>
             </div>
