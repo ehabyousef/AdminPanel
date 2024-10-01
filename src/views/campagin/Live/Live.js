@@ -2,6 +2,9 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { liveCampagin, liveCampagins } from '../../../redux/slices/AdminControl';
 import { getAdminLoged } from '../../../redux/slices/GetUser';
+import { FaRegEdit } from 'react-icons/fa';
+import { GrView } from 'react-icons/gr';
+import { Link } from 'react-router-dom';
 function Live() {
     const dispatch = useDispatch();
     const liveCamp = useSelector(liveCampagins);
@@ -20,31 +23,41 @@ function Live() {
                                 <th scope="col">#</th>
                                 <th scope="col">Blogger</th>
                                 <th scope="col">Client</th>
+                                <th scope="col">From</th>
+                                <th scope="col">To</th>
                                 <th scope="col">Handle</th>
+                                <th scope="col">view</th>
                             </tr>
                         </thead>
-                        {/* <tbody>
+                        <tbody>
                             {liveCamp.length > 0 ? liveCamp.map((campaign, index) => (
-                                    <tr key={index}>
-                                        <th scope="row">{index + 1}</th>
-                                        <td className="d-flex align-self-center gap-1" onClick={() => getBlogger(campaign.blogerId)} style={{ cursor: 'pointer' }}>
-                                            <img className="rounded-circle" src={campaign.blogerImage || avatar} alt="." width={25} />
-                                            <p className="m-0">{campaign.blogerName || 'Blogger Name'}</p>
-                                        </td>
-                                        <td>{campaign.clientName || 'Client Name'}</td>
-                                        <td>
-                                            <FaRegEdit
-                                                size={25}
-                                                style={{ cursor: 'pointer' }}
-                                            />
-                                        </td>
-                                    </tr>
-                                )) : (
+                                <tr key={index}>
+                                    <th scope="row">{index + 1}</th>
+                                    <td className="d-flex align-self-center gap-1" onClick={() => getBlogger(campaign.blogerId)} style={{ cursor: 'pointer' }}>
+                                        <img className="rounded-circle" src={campaign.blogerImage || avatar} alt="." width={25} />
+                                        <p className="m-0">{campaign.blogerName || 'Blogger Name'}</p>
+                                    </td>
+                                    <td>{campaign.createdBy || 'Client Name'}</td>
+                                    <td>{campaign.from || 'Date'}</td>
+                                    <td>{campaign.to || 'Date'}</td>
+                                    <td>
+                                        <FaRegEdit
+                                            size={25}
+                                            style={{ cursor: 'pointer' }}
+                                        />
+                                    </td>
+                                    <td>
+                                        <Link className='text-decoration-none' to={campaign.campaignUrl} target='_blank'>
+                                            <GrView size={25} color='#0000ff' />
+                                        </Link>
+                                    </td>
+                                </tr>
+                            )) : (
                                 <tr>
-                                    <td colSpan="4" className="text-center">No data available</td>
+                                    <td colSpan="7" className="text-center">No data available</td>
                                 </tr>
                             )}
-                        </tbody> */}
+                        </tbody>
                     </table>
                 </div>
             </div>

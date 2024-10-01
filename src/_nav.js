@@ -69,13 +69,18 @@ const _nav = [
       },
       {
         component: CNavItem,
+        name: 'compeleted',
+        to: '/campagin/compeleted',
+      },
+      {
+        component: CNavItem,
         name: 'live',
         to: '/campagin/live',
       },
       {
         component: CNavItem,
         name: 'done',
-        to: '/campagin/compeleted',
+        to: '/campagin/done',
       },
     ],
   },

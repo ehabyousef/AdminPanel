@@ -5,6 +5,7 @@ const initialState = {
     bloggerReply: [],
     categories: [],
     paid: [],
+    compelete: [],
     live: [],
     done: [],
     loading: false,
@@ -67,6 +68,38 @@ export const clientPaid = createAsyncThunk(
     async ({ TheToken }, { rejectWithValue }) => {
         try {
             const response = await axios.get(`http://92.113.26.138:8081/api/campaign/admin/paid-campaign`, {
+                headers: {
+                    Authorization: `Bearer ${TheToken}`,
+                },
+            });
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response ? error.response.data : error.message);
+        }
+    }
+);
+// Create an async thunk to fetch live campagin
+export const compeleteCampagin = createAsyncThunk(
+    'campagins/compeleteCampagin',
+    async ({ TheToken }, { rejectWithValue }) => {
+        try {
+            const response = await axios.get(`http://92.113.26.138:8081/api/campaign/admin/complete`, {
+                headers: {
+                    Authorization: `Bearer ${TheToken}`,
+                },
+            });
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response ? error.response.data : error.message);
+        }
+    }
+);
+// Create an async thunk to post compelete to client
+export const postCompeleteCampagin = createAsyncThunk(
+    'campagins/postCompeleteCampagin',
+    async ({ TheToken, contentBody }, { rejectWithValue }) => {
+        try {
+            const response = await axios.post(`http://92.113.26.138:8081/api/campaign/complete/to-client`, contentBody, {
                 headers: {
                     Authorization: `Bearer ${TheToken}`,
                 },
@@ -219,6 +252,32 @@ const adminControlSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
+            // get compelete 
+            .addCase(compeleteCampagin.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(compeleteCampagin.fulfilled, (state, action) => {
+                state.loading = false;
+                state.compelete = action.payload;
+            })
+            .addCase(compeleteCampagin.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            // get compelete 
+            .addCase(postCompeleteCampagin.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(postCompeleteCampagin.fulfilled, (state, action) => {
+                state.loading = false;
+                // state.compelete = action.payload;
+            })
+            .addCase(postCompeleteCampagin.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
             // get live
             .addCase(liveCampagin.pending, (state) => {
                 state.loading = true;
@@ -306,6 +365,7 @@ const adminControlSlice = createSlice({
 // Export the reducer and selector
 export const allCategories = (state) => state.adminControl.categories;
 export const paidCampagins = (state) => state.adminControl.paid
+export const compeleteCampagins = (state) => state.adminControl.compelete
 export const liveCampagins = (state) => state.adminControl.live
 export const doneCampagins = (state) => state.adminControl.done
 export default adminControlSlice.reducer;

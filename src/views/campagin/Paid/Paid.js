@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { clientPaid, paidCampagins } from '../../../redux/slices/AdminControl';
 import { getAdminLoged } from '../../../redux/slices/GetUser';
+import { FaRegEdit } from 'react-icons/fa';
 
 function Paid() {
     const dispatch = useDispatch();
@@ -24,7 +25,7 @@ function Paid() {
                                 <th scope="col">Handle</th>
                             </tr>
                         </thead>
-                        {/* <tbody>
+                        <tbody>
                             {paidCamp.length > 0 ? paidCamp.map((campaign, index) => (
                                     <tr key={index}>
                                         <th scope="row">{index + 1}</th>
@@ -45,7 +46,7 @@ function Paid() {
                                     <td colSpan="4" className="text-center">No data available</td>
                                 </tr>
                             )}
-                        </tbody> */}
+                        </tbody>
                     </table>
                 </div>
             </div>
