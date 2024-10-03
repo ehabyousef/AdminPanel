@@ -4,12 +4,23 @@ import { liveCampagin, liveCampagins } from '../../../redux/slices/AdminControl'
 import { getAdminLoged } from '../../../redux/slices/GetUser';
 import { FaRegEdit } from 'react-icons/fa';
 import { GrView } from 'react-icons/gr';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 function Live() {
     const dispatch = useDispatch();
     const liveCamp = useSelector(liveCampagins);
     const TheToken = useSelector(getAdminLoged);
-    console.log(liveCamp)
+    const navigate = useNavigate();
+    // Handle the blogger profile view
+    const getBlogger = async (id) => {
+        try {
+            const response = await axios.get(`http://92.113.26.138:8081/api/bloger/${id}`);
+            navigate('/users/profile', { state: response.data });
+        } catch (err) {
+            console.error(err);
+        }
+    };
+    
     useEffect(() => {
         dispatch(liveCampagin({ TheToken }))
     }, [dispatch])

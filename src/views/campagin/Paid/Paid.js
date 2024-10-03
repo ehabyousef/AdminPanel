@@ -3,12 +3,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { clientPaid, paidCampagins } from '../../../redux/slices/AdminControl';
 import { getAdminLoged } from '../../../redux/slices/GetUser';
 import { FaRegEdit } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Paid() {
     const dispatch = useDispatch();
     const paidCamp = useSelector(paidCampagins);
     const TheToken = useSelector(getAdminLoged);
-    console.log(paidCamp)
+    const navigate = useNavigate();
+    
+    // Handle the blogger profile view
+    const getBlogger = async (id) => {
+        try {
+            const response = await axios.get(`http://92.113.26.138:8081/api/bloger/${id}`);
+            navigate('/users/profile', { state: response.data });
+        } catch (err) {
+            console.error(err);
+        }
+    };
     useEffect(() => {
         dispatch(clientPaid({ TheToken }))
     }, [dispatch])

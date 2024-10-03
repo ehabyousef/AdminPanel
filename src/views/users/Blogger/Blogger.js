@@ -15,7 +15,7 @@ function Blogger() {
         dispatch(fetchBlogs({ page: currentPage, size }));
     }, [dispatch, currentPage, size]);
 
-    console.log(blogs);
+    
     const handlePageChange = (event, value) => {
         setCurrentPage(value - 1);
     };

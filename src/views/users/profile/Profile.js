@@ -6,7 +6,7 @@ import axios from 'axios';
 function profile() {
     const location = useLocation();
     const blogger = location.state;
-    console.log(blogger);
+    
     return (
         <div className="container">
             <div className="row my-5">

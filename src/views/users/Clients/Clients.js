@@ -16,7 +16,7 @@ function Clients() {
     useEffect(() => {
         dispatch(fetchUsers({ page: currentPage, size, TheToken }));
     }, [dispatch, currentPage, size]);
-    console.log(users);
+    
     const handlePageChange = (event, value) => {
         setCurrentPage(value - 1);
     };

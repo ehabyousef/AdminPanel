@@ -89,7 +89,7 @@ function Pending() {
                 console.error('Error updating the campaign:', err);
             });
     };
-    console.log(campaigns)
+    
     return (
         <div className="container-fluid d-flex justify-content-center">
             {loading ? (

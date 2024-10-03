@@ -2,11 +2,25 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { doneCampagin, doneCampagins } from '../../../redux/slices/AdminControl';
 import { getAdminLoged } from '../../../redux/slices/GetUser';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 function Done() {
     const dispatch = useDispatch();
     const doneCamp = useSelector(doneCampagins);
     const TheToken = useSelector(getAdminLoged);
-    console.log(doneCamp)
+    const navigate = useNavigate();
+
+    // Handle the blogger profile view
+    const getBlogger = async (id) => {
+        try {
+            const response = await axios.get(`http://92.113.26.138:8081/api/bloger/${id}`);
+            navigate('/users/profile', { state: response.data });
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    
     useEffect(() => {
         dispatch(doneCampagin({ TheToken }))
     }, [dispatch])
