@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import { FaRegEdit } from 'react-icons/fa';
 import { doneCampagin, doneCampagins } from '../../../redux/slices/AdminControl';
 import { getAdminLoged } from '../../../redux/slices/GetUser';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { GrView } from 'react-icons/gr';
 function Done() {
     const dispatch = useDispatch();
     const doneCamp = useSelector(doneCampagins);
@@ -24,6 +26,7 @@ function Done() {
     useEffect(() => {
         dispatch(doneCampagin({ TheToken }))
     }, [dispatch])
+    console.log(doneCamp)
     return (
         <div className="container-fluid d-flex justify-content-center">
             <div className="col-12 col-md-9 d-flex flex-column gap-3 w-100">
@@ -34,7 +37,10 @@ function Done() {
                                 <th scope="col">#</th>
                                 <th scope="col">Blogger</th>
                                 <th scope="col">Client</th>
+                                <th scope="col">From</th>
+                                <th scope="col">To</th>
                                 <th scope="col">Handle</th>
+                                <th scope="col">view</th>
                             </tr>
                         </thead>
                         <tbody>

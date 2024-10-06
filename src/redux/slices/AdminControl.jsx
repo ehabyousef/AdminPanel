@@ -298,7 +298,7 @@ const adminControlSlice = createSlice({
             })
             .addCase(doneCampagin.fulfilled, (state, action) => {
                 state.loading = false;
-                state.live = action.payload;
+                state.done = action.payload;
             })
             .addCase(doneCampagin.rejected, (state, action) => {
                 state.loading = false;
