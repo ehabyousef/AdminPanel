@@ -7,6 +7,7 @@ import { CButton, CModal, CModalBody, CModalFooter, CModalHeader, CModalTitle } 
 import { adminToBloger, compeleteCampagin, compeleteCampagins, postCompeleteCampagin } from '../../../redux/slices/AdminControl';
 import axios from 'axios';
 import { getAdminLoged } from '../../../redux/slices/GetUser';
+import Spinner from '../../../components/spinner/Spinner';
 
 function Compeleted() {
   const [selectedCampaign, setSelectedCampaign] = useState(null);
@@ -17,7 +18,7 @@ function Compeleted() {
   const dispatch = useDispatch();
   const TheToken = useSelector(getAdminLoged);
   const compeletedCamp = useSelector(compeleteCampagins);
-
+  const { loading } = useSelector((state) => state.adminControl);
   useEffect(() => {
     dispatch(compeleteCampagin({ TheToken }));
   }, [dispatch, TheToken]);
@@ -100,109 +101,117 @@ function Compeleted() {
 
   return (
     <div className="container-fluid d-flex justify-content-center">
-      <div className="col-12 col-md-9 d-flex flex-column gap-3 w-100">
-        <div className="table-responsive">
-          <table className="table table-striped">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Blogger</th>
-                <th scope="col">Client Email</th>
-                <th scope="col">From</th>
-                <th scope="col">To</th>
-                <th scope="col">Handle</th>
-                <th scope="col">View</th>
-              </tr>
-            </thead>
-            <tbody>
-              {compeletedCamp.length > 0 ? compeletedCamp.map((campaign, index) => (
-                <tr key={index}>
-                  <th scope="row">{index + 1}</th>
-                  <td className="d-flex align-self-center gap-1" onClick={() => getBlogger(campaign.blogerId)} style={{ cursor: 'pointer' }}>
-                    <img className="rounded-circle" src={campaign.blogerImage} alt="." width={25} />
-                    <p className="m-0">{campaign.blogerName || 'Blogger Name'}</p>
-                  </td>
-                  <td>{campaign.createdBy || 'Client Email'}</td>
-                  <td>{campaign.from || 'Date'}</td>
-                  <td>{campaign.to || 'Date'}</td>
-                  <td className='d-flex gap-1 align-items-center'>
-                    <FaRegEdit
-                      size={25}
-                      style={{ cursor: 'pointer' }}
-                      onClick={() => handleEditClick(campaign)} // Set selected campaign and open edit modal
-                    />
-                    <FaCheck
-                      size={25}
-                      style={{ cursor: 'pointer' }}
-                      onClick={() => handleConfirmClick(campaign)} // Set selected campaign and open confirm modal
-                    />
-                  </td>
-                  <td>
-                    <Link className='text-decoration-none' to={campaign.campaignUrl} target='_blank'>
-                      <GrView size={25} color='#0000ff' />
-                    </Link>
-                  </td>
-                </tr>
-              )) : (
-                <tr>
-                  <td colSpan="7" className="text-center">No data available</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+      {loading ? (
+        <div className="col-12 col-md-9 d-flex justify-content-center align-items-center text-center gap-3 h-100">
+          <Spinner />
         </div>
+      ) : (
+        (compeletedCamp.length === 0 ? 'no campaigns available' :
+          <div className="col-12 col-md-9 d-flex flex-column gap-3 w-100">
+            <div className="table-responsive">
+              <table className="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Blogger</th>
+                    <th scope="col">Client Email</th>
+                    <th scope="col">From</th>
+                    <th scope="col">To</th>
+                    <th scope="col">Handle</th>
+                    <th scope="col">View</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {compeletedCamp.length > 0 ? compeletedCamp.map((campaign, index) => (
+                    <tr key={index}>
+                      <th scope="row">{index + 1}</th>
+                      <td className="d-flex align-self-center gap-1" onClick={() => getBlogger(campaign.blogerId)} style={{ cursor: 'pointer' }}>
+                        <img className="rounded-circle" src={campaign.blogerImage} alt="." width={25} />
+                        <p className="m-0">{campaign.blogerName || 'Blogger Name'}</p>
+                      </td>
+                      <td>{campaign.createdBy || 'Client Email'}</td>
+                      <td>{campaign.from || 'Date'}</td>
+                      <td>{campaign.to || 'Date'}</td>
+                      <td className='d-flex gap-1 align-items-center'>
+                        <FaRegEdit
+                          size={25}
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => handleEditClick(campaign)} // Set selected campaign and open edit modal
+                        />
+                        <FaCheck
+                          size={25}
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => handleConfirmClick(campaign)} // Set selected campaign and open confirm modal
+                        />
+                      </td>
+                      <td>
+                        <Link className='text-decoration-none' to={campaign.campaignUrl} target='_blank'>
+                          <GrView size={25} color='#0000ff' />
+                        </Link>
+                      </td>
+                    </tr>
+                  )) : (
+                    <tr>
+                      <td colSpan="7" className="text-center">No data available</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
 
-        {/* Edit Modal */}
-        <CModal alignment="center" visible={visibleEditModal} onClose={() => setVisibleEditModal(false)}>
-          <CModalHeader>
-            <CModalTitle>Edit Campaign content</CModalTitle>
-          </CModalHeader>
-          <CModalBody>
-            {selectedCampaign ? (
-              <form>
-                <div className="mb-3">
-                  <label htmlFor="content" className="form-label">
-                    Campaign content
-                  </label>
-                  <textarea
-                    type="text"
-                    className="form-control"
-                    id="content"
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)} // Update content when edited
-                    style={{ height: '100px' }}
-                  />
-                </div>
-              </form>
-            ) : (
-              <p>No campaign selected.</p>
-            )}
-          </CModalBody>
-          <CModalFooter>
-            <CButton type="submit" color="success" onClick={handleFormSubmit}>
-              Save Changes
-            </CButton>
-          </CModalFooter>
-        </CModal>
+            {/* Edit Modal */}
+            <CModal alignment="center" visible={visibleEditModal} onClose={() => setVisibleEditModal(false)}>
+              <CModalHeader>
+                <CModalTitle>Edit Campaign content</CModalTitle>
+              </CModalHeader>
+              <CModalBody>
+                {selectedCampaign ? (
+                  <form>
+                    <div className="mb-3">
+                      <label htmlFor="content" className="form-label">
+                        Campaign content
+                      </label>
+                      <textarea
+                        type="text"
+                        className="form-control"
+                        id="content"
+                        value={content}
+                        onChange={(e) => setContent(e.target.value)} // Update content when edited
+                        style={{ height: '100px' }}
+                      />
+                    </div>
+                  </form>
+                ) : (
+                  <p>No campaign selected.</p>
+                )}
+              </CModalBody>
+              <CModalFooter>
+                <CButton type="submit" color="success" onClick={handleFormSubmit}>
+                  Save Changes
+                </CButton>
+              </CModalFooter>
+            </CModal>
 
-        {/* Confirmation Modal */}
-        <CModal alignment="center" visible={visibleConfirmModal} onClose={() => setVisibleConfirmModal(false)}>
-          <CModalHeader>
-            <CModalTitle>Confirm Campaign Approval</CModalTitle>
-          </CModalHeader>
-          <CModalBody>
-            Are you sure you want to approve this campaign?
-          </CModalBody>
-          <CModalFooter>
-            <CButton color="secondary" onClick={() => setVisibleConfirmModal(false)}>
-              Cancel
-            </CButton>
-            <CButton color="success" onClick={handleConfirmApproval}>
-              Yes, Approve
-            </CButton>
-          </CModalFooter>
-        </CModal>
-      </div>
+            {/* Confirmation Modal */}
+            <CModal alignment="center" visible={visibleConfirmModal} onClose={() => setVisibleConfirmModal(false)}>
+              <CModalHeader>
+                <CModalTitle>Confirm Campaign Approval</CModalTitle>
+              </CModalHeader>
+              <CModalBody>
+                Are you sure you want to approve this campaign?
+              </CModalBody>
+              <CModalFooter>
+                <CButton color="secondary" onClick={() => setVisibleConfirmModal(false)}>
+                  Cancel
+                </CButton>
+                <CButton color="success" onClick={handleConfirmApproval}>
+                  Yes, Approve
+                </CButton>
+              </CModalFooter>
+            </CModal>
+          </div>
+        )
+      )}
     </div>
   );
 }

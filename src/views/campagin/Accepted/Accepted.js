@@ -7,6 +7,7 @@ import { adminToClient, getBloggerReply } from '../../../redux/slices/AdminContr
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { getAdminLoged, } from '../../../redux/slices/GetUser';
+import Spinner from '../../../components/spinner/Spinner';
 
 function Accepted() {
     const dispatch = useDispatch();
@@ -71,84 +72,88 @@ function Accepted() {
             console.error(err);
         }
     };
-    
+
     return (
         <div className="container-fluid d-flex justify-content-center">
             {loading ? (
                 <div className="col-12 col-md-9 d-flex justify-content-center align-items-center text-center gap-3 h-100">
-                    Loading...
+                    <Spinner />
                 </div>
             ) : (
-                <div className="col-12 col-md-9 d-flex flex-column gap-3 w-100">
-                    <div className="table-responsive">
-                        <table className="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Blogger</th>
-                                    <th scope="col">Client</th>
-                                    <th scope="col">Handle</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {bloggerReply.length > 0 ? bloggerReply
-                                    .filter((campaign) => campaign.
-                                        blogerStatus === 'Accepted')
-                                    .map((campaign, index) => (
-                                        <tr key={index}>
-                                            <th scope="row">{index + 1}</th>
-                                            <td className="d-flex align-self-center gap-1" onClick={() => getBlogger(campaign.blogerId)} style={{ cursor: 'pointer' }}>
-                                                <img className="rounded-circle" src={campaign.blogerImage || avatar} alt="." width={25} />
-                                                <p className="m-0">{campaign.blogerName || 'Blogger Name'}</p>
-                                            </td>
-                                            <td>{campaign.clientName || 'Client Name'}</td>
-                                            <td>
-                                                <FaRegEdit
-                                                    size={25}
-                                                    style={{ cursor: 'pointer' }}
-                                                    onClick={() => handleCampaignClick(campaign)} // Set selected campaign and open modal
-                                                />
-                                            </td>
-                                        </tr>
-                                    )) : (
+                (bloggerReply
+                    .filter((campaign) => campaign.
+                        blogerStatus === 'Accepted').length === 0 ? 'no campaigns available' :
+                    <div className="col-12 col-md-9 d-flex flex-column gap-3 w-100">
+                        <div className="table-responsive">
+                            <table className="table table-striped">
+                                <thead>
                                     <tr>
-                                        <td colSpan="4" className="text-center">No data available</td>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Blogger</th>
+                                        <th scope="col">Client</th>
+                                        <th scope="col">Handle</th>
                                     </tr>
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
+                                </thead>
+                                <tbody>
+                                    {bloggerReply.length > 0 ? bloggerReply
+                                        .filter((campaign) => campaign.
+                                            blogerStatus === 'Accepted')
+                                        .map((campaign, index) => (
+                                            <tr key={index}>
+                                                <th scope="row">{index + 1}</th>
+                                                <td className="d-flex align-self-center gap-1" onClick={() => getBlogger(campaign.blogerId)} style={{ cursor: 'pointer' }}>
+                                                    <img className="rounded-circle" src={campaign.blogerImage || avatar} alt="." width={25} />
+                                                    <p className="m-0">{campaign.blogerName || 'Blogger Name'}</p>
+                                                </td>
+                                                <td>{campaign.clientName || 'Client Name'}</td>
+                                                <td>
+                                                    <FaRegEdit
+                                                        size={25}
+                                                        style={{ cursor: 'pointer' }}
+                                                        onClick={() => handleCampaignClick(campaign)} // Set selected campaign and open modal
+                                                    />
+                                                </td>
+                                            </tr>
+                                        )) : (
+                                        <tr>
+                                            <td colSpan="4" className="text-center">No data available</td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
 
-                    {/* Modal */}
-                    <CModal alignment="center" visible={visible} onClose={() => setVisible(false)}>
-                        <CModalHeader>
-                            <CModalTitle>Edit Campaign Content</CModalTitle>
-                        </CModalHeader>
-                        <CModalBody>
-                            {selectedCampaign ? (
-                                <form >
-                                    <div className="mb-3">
-                                        <label htmlFor="content" className="form-label">Campaign Content</label>
-                                        <textarea
-                                            type="text"
-                                            className="form-control"
-                                            id="content"
-                                            value={content}
-                                            onChange={(e) => setContent(e.target.value)} // Update content when edited
-                                            style={{ height: '100px' }}
-                                        />
-                                    </div>
-                                </form>
-                            ) : (
-                                <p>No campaign selected.</p>
-                            )}
-                        </CModalBody>
-                        <CModalFooter>
-                            <CButton type="submit" color="primary" onClick={handleFormSubmit}>Save Changes</CButton>
-                            <CButton color="secondary" onClick={() => setVisible(false)}>Close</CButton>
-                        </CModalFooter>
-                    </CModal>
-                </div>
+                        {/* Modal */}
+                        <CModal alignment="center" visible={visible} onClose={() => setVisible(false)}>
+                            <CModalHeader>
+                                <CModalTitle>Edit Campaign Content</CModalTitle>
+                            </CModalHeader>
+                            <CModalBody>
+                                {selectedCampaign ? (
+                                    <form >
+                                        <div className="mb-3">
+                                            <label htmlFor="content" className="form-label">Campaign Content</label>
+                                            <textarea
+                                                type="text"
+                                                className="form-control"
+                                                id="content"
+                                                value={content}
+                                                onChange={(e) => setContent(e.target.value)} // Update content when edited
+                                                style={{ height: '100px' }}
+                                            />
+                                        </div>
+                                    </form>
+                                ) : (
+                                    <p>No campaign selected.</p>
+                                )}
+                            </CModalBody>
+                            <CModalFooter>
+                                <CButton type="submit" color="primary" onClick={handleFormSubmit}>Save Changes</CButton>
+                                <CButton color="secondary" onClick={() => setVisible(false)}>Close</CButton>
+                            </CModalFooter>
+                        </CModal>
+                    </div>
+                )
             )}
         </div>
     );

@@ -9,6 +9,7 @@ const initialState = {
     live: [],
     done: [],
     loading: false,
+    categLoading: false,
     error: null,
 };
 
@@ -306,57 +307,57 @@ const adminControlSlice = createSlice({
             })
             // Get categories
             .addCase(getAllCategories.pending, (state) => {
-                state.loading = true;
+                state.categLoading = true;
                 state.error = null;
             })
             .addCase(getAllCategories.fulfilled, (state, action) => {
-                state.loading = false;
+                state.categLoading = false;
                 state.categories = action.payload;
             })
             .addCase(getAllCategories.rejected, (state, action) => {
-                state.loading = false;
+                state.categLoading = false;
                 state.error = action.payload;
             })
             // Update category
             .addCase(updateCategory.pending, (state) => {
-                state.loading = true;
+                state.categLoading = true;
                 state.error = null;
             })
             .addCase(updateCategory.fulfilled, (state, action) => {
-                state.loading = false;
+                state.categLoading = false;
                 const index = state.categories.findIndex(cat => cat.id === action.payload.id);
                 if (index !== -1) {
                     state.categories[index] = action.payload; // Update the specific category
                 }
             })
             .addCase(updateCategory.rejected, (state, action) => {
-                state.loading = false;
+                state.categLoading = false;
                 state.error = action.payload;
             })
             // Add category
             .addCase(addCategory.pending, (state) => {
-                state.loading = true;
+                state.categLoading = true;
                 state.error = null;
             })
             .addCase(addCategory.fulfilled, (state, action) => {
-                state.loading = false;
+                state.categLoading = false;
                 state.categories.push(action.payload); // Add the new category
             })
             .addCase(addCategory.rejected, (state, action) => {
-                state.loading = false;
+                state.categLoading = false;
                 state.error = action.payload;
             })
             // Delete category
             .addCase(deleteCategory.pending, (state) => {
-                state.loading = true;
+                state.categLoading = true;
                 state.error = null;
             })
             .addCase(deleteCategory.fulfilled, (state, action) => {
-                state.loading = false;
+                state.categLoading = false;
                 state.categories = state.categories.filter(cat => cat.id !== action.payload); // Remove the deleted category
             })
             .addCase(deleteCategory.rejected, (state, action) => {
-                state.loading = false;
+                state.categLoading = false;
                 state.error = action.payload;
             });
     },

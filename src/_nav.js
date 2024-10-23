@@ -86,7 +86,7 @@ const _nav = [
   },
   {
     component: CNavGroup,
-    name: 'categries',
+    name: 'categories',
     icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
     items: [
       {

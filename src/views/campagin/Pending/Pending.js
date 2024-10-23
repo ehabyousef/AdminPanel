@@ -8,6 +8,7 @@ import { CButton, CModal, CModalBody, CModalFooter, CModalHeader, CModalTitle } 
 import { adminToBloger } from '../../../redux/slices/AdminControl';
 import axios from 'axios';
 import { getAdminLoged, } from '../../../redux/slices/GetUser';
+import Spinner from '../../../components/spinner/Spinner';
 
 function Pending() {
     const [loading, setLoading] = useState(false);
@@ -89,82 +90,84 @@ function Pending() {
                 console.error('Error updating the campaign:', err);
             });
     };
-    
+
     return (
         <div className="container-fluid d-flex justify-content-center">
             {loading ? (
                 <div className="col-12 col-md-9 d-flex justify-content-center align-items-center text-center gap-3 h-100">
-                    Loading...
+                    <Spinner />
                 </div>
             ) : (
-                <div className="col-12 col-md-9 d-flex flex-column gap-3 w-100">
-                    <div className="table-responsive">
-                        <table className="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Blogger</th>
-                                    <th scope="col">Client Email</th>
-                                    <th scope="col">from</th>
-                                    <th scope="col">Handle</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {campaigns.map((campaign, index) => (
-                                    <tr key={index}>
-                                        <th scope="row">{index + 1}</th>
-                                        <td className="d-flex align-self-center gap-1" onClick={() => getBlogger(campaign.blogerId)} style={{ cursor: 'pointer' }}>
-                                            <img className="rounded-circle" src={campaign.blogerImage || avatar} alt="." width={25} />
-                                            <p className="m-0">{campaign.blogerName || 'bloger Name'}</p>
-                                        </td>
-                                        <td>{campaign.createdBy || 'client mail'}</td>
-                                        <td>{campaign.from || 'date'}</td>
-                                        <td>
-                                            <FaRegEdit
-                                                size={25}
-                                                style={{ cursor: 'pointer' }}
-                                                onClick={() => handleCampaignClick(campaign)} // Set selected campaign and open modal
-                                            />
-                                        </td>
+                (campaigns.length === 0 ? 'no campaigns available' :
+                    <div className="col-12 col-md-9 d-flex flex-column gap-3 w-100">
+                        <div className="table-responsive">
+                            <table className="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Blogger</th>
+                                        <th scope="col">Client Email</th>
+                                        <th scope="col">from</th>
+                                        <th scope="col">Handle</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                                </thead>
+                                <tbody>
+                                    {campaigns.map((campaign, index) => (
+                                        <tr key={index}>
+                                            <th scope="row">{index + 1}</th>
+                                            <td className="d-flex align-self-center gap-1" onClick={() => getBlogger(campaign.blogerId)} style={{ cursor: 'pointer' }}>
+                                                <img className="rounded-circle" src={campaign.blogerImage || avatar} alt="." width={25} />
+                                                <p className="m-0">{campaign.blogerName || 'bloger Name'}</p>
+                                            </td>
+                                            <td>{campaign.createdBy || 'client mail'}</td>
+                                            <td>{campaign.from || 'date'}</td>
+                                            <td>
+                                                <FaRegEdit
+                                                    size={25}
+                                                    style={{ cursor: 'pointer' }}
+                                                    onClick={() => handleCampaignClick(campaign)} // Set selected campaign and open modal
+                                                />
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
 
-                    {/* Modal */}
-                    <CModal alignment="center" visible={visible} onClose={() => setVisible(false)}>
-                        <CModalHeader>
-                            <CModalTitle>Edit Campaign Description</CModalTitle>
-                        </CModalHeader>
-                        <CModalBody>
-                            {selectedCampaign ? (
-                                <form  >
-                                    <div className="mb-3">
-                                        <label htmlFor="content" className="form-label">
-                                            Campaign Description
-                                        </label>
-                                        <textarea
-                                            type="text"
-                                            className="form-control"
-                                            id="content"
-                                            value={content}
-                                            onChange={(e) => setContent(e.target.value)} // Update content when edited
-                                            style={{ height: '100px' }}
-                                        />
-                                    </div>
-                                </form>
-                            ) : (
-                                <p>No campaign selected.</p>
-                            )}
-                        </CModalBody>
-                        <CModalFooter>
+                        {/* Modal */}
+                        <CModal alignment="center" visible={visible} onClose={() => setVisible(false)}>
+                            <CModalHeader>
+                                <CModalTitle>Edit Campaign Description</CModalTitle>
+                            </CModalHeader>
+                            <CModalBody>
+                                {selectedCampaign ? (
+                                    <form  >
+                                        <div className="mb-3">
+                                            <label htmlFor="content" className="form-label">
+                                                Campaign Description
+                                            </label>
+                                            <textarea
+                                                type="text"
+                                                className="form-control"
+                                                id="content"
+                                                value={content}
+                                                onChange={(e) => setContent(e.target.value)} // Update content when edited
+                                                style={{ height: '100px' }}
+                                            />
+                                        </div>
+                                    </form>
+                                ) : (
+                                    <p>No campaign selected.</p>
+                                )}
+                            </CModalBody>
+                            <CModalFooter>
                                 <CButton type="submit" color="success" onClick={handleFormSubmit}>
-                                Save Changes
-                            </CButton>
-                        </CModalFooter>
-                    </CModal>
-                </div>
+                                    Save Changes
+                                </CButton>
+                            </CModalFooter>
+                        </CModal>
+                    </div>
+                )
             )}
         </div>
     );
