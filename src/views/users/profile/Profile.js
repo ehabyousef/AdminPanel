@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
 
 import { IoLogoInstagram, IoLogoTiktok, IoLogoYoutube } from "react-icons/io5";
-import axios from 'axios';
 function profile() {
     const location = useLocation();
     const blogger = location.state;
