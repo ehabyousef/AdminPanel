@@ -7,7 +7,7 @@ import { FaRegEdit } from 'react-icons/fa';
 import { cibAddthis, cilX } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import Spinner from '../../components/spinner/Spinner';
-
+import { motion } from 'framer-motion'
 function Categories() {
     const [visible, setVisible] = useState(false);
     const [deleteModalVisible, setDeleteModalVisible] = useState(false); // State for delete confirmation modal
@@ -94,19 +94,25 @@ function Categories() {
             ) : (
                 <div className='d-flex flex-column gap-3 w-100 m-0 p-0'>
                     {/* Add Category Button */}
-                    <div className='d-flex justify-content-end'>
+                    < motion.div
+                        initial={{ x: '120px', opacity: .3, scale: .89, transition: { duration: 1 }, }}
+                        animate={{ x: '0px', opacity: 1, scale: 1, transition: { duration: 1 }, }}
+                        className='d-flex justify-content-end'>
                         <CIcon
                             icon={cibAddthis}
                             width={30}
                             style={{ cursor: 'pointer', color: '#888' }}
                             onClick={() => handleCategoryClick()} // Open modal for new category
                         />
-                    </div>
+                    </motion.div>
 
                     {/* Categories Table */}
                     {categories.length === 0 ? 'no categories available' :
                         <div className="col-12 col-md-9 d-flex flex-column gap-3 w-100">
-                            <div className="table-responsive">
+                            <motion.div
+                                initial={{ y: '80px', opacity: .3, scale: .89, transition: { duration: 1 }, }}
+                                animate={{ y: '0px', opacity: 1, scale: 1, transition: { duration: 1 }, }}
+                                className="table-responsive">
                                 <table className="table table-striped">
                                     <thead>
                                         <tr>
@@ -144,7 +150,7 @@ function Categories() {
                                         )}
                                     </tbody>
                                 </table>
-                            </div>
+                            </motion.div>
 
                             {/* Modal for Add/Edit Category */}
                             <CModal alignment="center" visible={visible} onClose={() => setVisible(false)}>

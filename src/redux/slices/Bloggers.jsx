@@ -17,7 +17,7 @@ const initialState = {
     loading: false,
     error: null,
     page: 0,          // Page numbers typically start from 1
-    size: 9,
+    size: 12,
 };
 
 // Create an async thunk to fetch blogs

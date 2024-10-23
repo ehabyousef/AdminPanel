@@ -7,6 +7,7 @@ import { GrView } from 'react-icons/gr';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Spinner from '../../../components/spinner/Spinner';
+import { motion } from 'framer-motion'
 function Live() {
     const dispatch = useDispatch();
     const liveCamp = useSelector(liveCampagins);
@@ -16,7 +17,7 @@ function Live() {
     // Handle the blogger profile view
     const getBlogger = async (id) => {
         try {
-            const response = await axios.get(`http://92.113.26.138:8081/api/bloger/${id}`);
+            const response = await axios.get(`https://92.113.26.138:8081/api/bloger/${id}`);
             navigate('/users/profile', { state: response.data });
         } catch (err) {
             console.error(err);
@@ -35,7 +36,10 @@ function Live() {
             ) : (
                 (liveCamp.length === 0 ? 'no campaigns available' :
                     <div className="col-12 col-md-9 d-flex flex-column gap-3 w-100">
-                        <div className="table-responsive">
+                        <motion.div
+                            initial={{ y: '80px', opacity: .3, scale: .89, transition: { duration: 1 }, }}
+                            animate={{ y: '0px', opacity: 1, scale: 1, transition: { duration: 1 }, }}
+                            className="table-responsive">
                             <table className="table table-striped">
                                 <thead>
                                     <tr>
@@ -67,7 +71,18 @@ function Live() {
                                             </td>
                                             <td>
                                                 <Link className='text-decoration-none' to={campaign.campaignUrl} target='_blank'>
-                                                    <GrView size={25} color='#0000ff' />
+                                                    <motion.button
+                                                        style={{ background: 'transparent', border: 'none', color: 'blue' }}
+                                                        initial={{ opacity: 0.6 }}
+                                                        whileHover={{
+                                                            scale: 1.2,
+                                                            transition: { duration: 1 },
+                                                            color: '#00b2e5'
+                                                        }}
+                                                        whileTap={{ scale: 0.9 }}
+                                                        whileInView={{ opacity: 1 }}>
+                                                        <GrView size={25} />
+                                                    </motion.button>
                                                 </Link>
                                             </td>
                                         </tr>
@@ -78,7 +93,7 @@ function Live() {
                                     )}
                                 </tbody>
                             </table>
-                        </div>
+                        </motion.div>
                     </div>
                 )
             )}

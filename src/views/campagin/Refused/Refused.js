@@ -8,7 +8,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { getAdminLoged, } from '../../../redux/slices/GetUser';
 import Spinner from '../../../components/spinner/Spinner';
-
+import { motion } from 'framer-motion'
 function Refused() {
     const dispatch = useDispatch();
     const { bloggerReply, loading, error } = useSelector((state) => state.adminControl);
@@ -66,7 +66,7 @@ function Refused() {
     };
     const getBlogger = async (id) => {
         try {
-            const response = await axios.get(`http://92.113.26.138:8081/api/bloger/${id}`);
+            const response = await axios.get(`https://92.113.26.138:8081/api/bloger/${id}`);
             navigate('/users/profile', { state: response.data });
         } catch (err) {
             console.error(err);
@@ -83,7 +83,10 @@ function Refused() {
                 (bloggerReply
                     .filter((campaign) => campaign.blogerStatus === 'Rejected').length === 0 ? 'no campaigns available' :
                     <div className="col-12 col-md-9 d-flex flex-column gap-3 w-100">
-                        <div className="table-responsive">
+                        <motion.div
+                            initial={{ y: '80px', opacity: .3, scale: .89, transition: { duration: 1 }, }}
+                            animate={{ y: '0px', opacity: 1, scale: 1, transition: { duration: 1 }, }}
+                            className="table-responsive">
                             <table className="table table-striped">
                                 <thead>
                                     <tr>
@@ -119,7 +122,7 @@ function Refused() {
                                     )}
                                 </tbody>
                             </table>
-                        </div>
+                        </motion.div>
 
                         {/* Modal */}
                         <CModal alignment="center" visible={visible} onClose={() => setVisible(false)}>

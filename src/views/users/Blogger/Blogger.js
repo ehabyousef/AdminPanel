@@ -8,6 +8,7 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { fetchBlogs } from '../../../redux/slices/Bloggers';
 import Spinner from '../../../components/spinner/Spinner';
+import { motion } from 'framer-motion'
 function Blogger() {
     const { blogs, loading, error, page, size } = useSelector((state) => state.Bloggers);
     const [currentPage, setCurrentPage] = useState(0);
@@ -26,8 +27,11 @@ function Blogger() {
                 <div className="col-12 col-md-9 d-flex justify-content-center align-items-center text-center gap-3 h-100"><Spinner /></div>
                 :
                 (blogs.content.length === 0 ? 'no bloggers available' :
-                    <div className="col-12 col-md-9 d-flex flex-column gap-3 w-100">
-                        <div className="table-responsive">
+                    <div className="col-12 col-md-9 d-flex flex-column justify-content-between gap-3 w-100" style={{ minHeight: '80vh' }}>
+                        <motion.div
+                            initial={{ y: '80px', opacity: .3, scale: .89, transition: { duration: 1 }, }}
+                            animate={{ y: '0px', opacity: 1, scale: 1, transition: { duration: 1 }, }}
+                            className="table-responsive">
                             <table className="table table-striped">
                                 <thead>
                                     <tr>
@@ -51,15 +55,29 @@ function Blogger() {
                                             </td>
                                             <td>
                                                 <Link className='text-decoration-none ' to='/users/profile' state={blog}>
-                                                    <GrView size={25} color='#0000ff' />
+                                                    <motion.button
+                                                        style={{ background: 'transparent', border: 'none', color: 'blue' }}
+                                                        initial={{ opacity: 0.6 }}
+                                                        whileHover={{
+                                                            scale: 1.2,
+                                                            transition: { duration: 1 },
+                                                            color: '#00b2e5'
+                                                        }}
+                                                        whileTap={{ scale: 0.9 }}
+                                                        whileInView={{ opacity: 1 }}>
+                                                        <GrView size={25} />
+                                                    </motion.button>
                                                 </Link>
                                             </td>
                                         </tr>
                                     ))}
                                 </tbody>
                             </table>
-                        </div>
-                        <div className="row">
+                        </motion.div>
+                        <motion.div
+                            initial={{ y: '-40px', scale: '.3', opacity: .1, scale: .89, transition: { duration: 1 } }}
+                            animate={{ y: '0px', scale: '1', opacity: 1, scale: 1, transition: { duration: 1 } }}
+                            className="row">
                             <Stack spacing={2}>
                                 <Pagination
                                     count={blogs?.totalPages}
@@ -73,7 +91,7 @@ function Blogger() {
                                     style={{ margin: '1rem auto' }}
                                 />
                             </Stack>
-                        </div>
+                        </motion.div>
                     </div>
                 )
             }
