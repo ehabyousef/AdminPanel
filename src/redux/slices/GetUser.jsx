@@ -13,7 +13,7 @@ export const adminLogin = createAsyncThunk(
     'user/adminLogin',
     async ({ formData }, { rejectWithValue }) => {
         try {
-            const response = await axios.post('http://92.113.26.138:8081/api/signin/admin', formData);
+            const response = await axios.post('https://92.113.26.138:8081/api/signin/admin', formData);
             console.log("API response:", response.data);  // Log for debugging
             return response.data;
         } catch (error) {
@@ -37,7 +37,7 @@ const userSlice = createSlice({
             state.status = "idle";
             state.error = null;
             localStorage.removeItem('isAdmin');
-            localStorage.removeItem('admin'); 
+            localStorage.removeItem('admin');
         },
     },
     extraReducers: (builder) => {

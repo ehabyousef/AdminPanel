@@ -18,7 +18,7 @@ export const adminToBloger = createAsyncThunk(
     'admin/adminToBloger',
     async ({ contentBody, TheToken }, { rejectWithValue }) => {
         try {
-            const response = await axios.post(`http://92.113.26.138:8081/api/campaign/request/to-bloger`, contentBody, {
+            const response = await axios.post(`https://92.113.26.138:8081/api/campaign/request/to-bloger`, contentBody, {
                 headers: {
                     Authorization: `Bearer ${TheToken}`,
                 },
@@ -35,7 +35,7 @@ export const getBloggerReply = createAsyncThunk(
     'admin/getBloggerReply',
     async ({ TheToken }, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`http://92.113.26.138:8081/api/campaign/admin/response`, {
+            const response = await axios.get(`https://92.113.26.138:8081/api/campaign/admin/response`, {
                 headers: {
                     Authorization: `Bearer ${TheToken}`,
                 },
@@ -52,7 +52,7 @@ export const adminToClient = createAsyncThunk(
     'admin/adminToClient',
     async ({ contentBody, TheToken }, { rejectWithValue }) => {
         try {
-            const response = await axios.post(`http://92.113.26.138:8081/api/campaign/response/to-client`, contentBody, {
+            const response = await axios.post(`https://92.113.26.138:8081/api/campaign/response/to-client`, contentBody, {
                 headers: {
                     Authorization: `Bearer ${TheToken}`,
                 },
@@ -68,7 +68,7 @@ export const clientPaid = createAsyncThunk(
     'campagins/clientPaid',
     async ({ TheToken }, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`http://92.113.26.138:8081/api/campaign/admin/paid-campaign`, {
+            const response = await axios.get(`https://92.113.26.138:8081/api/campaign/admin/paid-campaign`, {
                 headers: {
                     Authorization: `Bearer ${TheToken}`,
                 },
@@ -84,7 +84,7 @@ export const compeleteCampagin = createAsyncThunk(
     'campagins/compeleteCampagin',
     async ({ TheToken }, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`http://92.113.26.138:8081/api/campaign/admin/complete`, {
+            const response = await axios.get(`https://92.113.26.138:8081/api/campaign/admin/complete`, {
                 headers: {
                     Authorization: `Bearer ${TheToken}`,
                 },
@@ -100,7 +100,7 @@ export const postCompeleteCampagin = createAsyncThunk(
     'campagins/postCompeleteCampagin',
     async ({ TheToken, contentBody }, { rejectWithValue }) => {
         try {
-            const response = await axios.post(`http://92.113.26.138:8081/api/campaign/complete/to-client`, contentBody, {
+            const response = await axios.post(`https://92.113.26.138:8081/api/campaign/complete/to-client`, contentBody, {
                 headers: {
                     Authorization: `Bearer ${TheToken}`,
                 },
@@ -116,7 +116,7 @@ export const liveCampagin = createAsyncThunk(
     'campagins/liveCampagin',
     async ({ TheToken }, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`http://92.113.26.138:8081/api/campaign/admin/live-campaign`, {
+            const response = await axios.get(`https://92.113.26.138:8081/api/campaign/admin/live-campaign`, {
                 headers: {
                     Authorization: `Bearer ${TheToken}`,
                 },
@@ -132,7 +132,7 @@ export const doneCampagin = createAsyncThunk(
     'campagins/doneCampagin',
     async ({ TheToken }, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`http://92.113.26.138:8081/api/campaign/admin/done-campaign`, {
+            const response = await axios.get(`https://92.113.26.138:8081/api/campaign/admin/done-campaign`, {
                 headers: {
                     Authorization: `Bearer ${TheToken}`,
                 },
@@ -148,7 +148,7 @@ export const getAllCategories = createAsyncThunk(
     'admin/getAllCategories',
     async (_, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`http://92.113.26.138:8081/api/categories`);
+            const response = await axios.get(`https://92.113.26.138:8081/api/categories`);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response ? error.response.data : error.message);
@@ -161,7 +161,7 @@ export const updateCategory = createAsyncThunk(
     'admin/updateCategory',
     async ({ id, categoryData }, { rejectWithValue }) => {
         try {
-            const response = await axios.put(`http://92.113.26.138:8081/api/categories/${id}`, categoryData);
+            const response = await axios.put(`https://92.113.26.138:8081/api/categories/${id}`, categoryData);
             return response.data; // Return the updated category data
         } catch (error) {
             return rejectWithValue(error.response ? error.response.data : error.message);
@@ -174,7 +174,7 @@ export const addCategory = createAsyncThunk(
     'admin/addCategory',
     async ({ categoryData }, { rejectWithValue }) => {
         try {
-            const response = await axios.post(`http://92.113.26.138:8081/api/categories`, categoryData);
+            const response = await axios.post(`https://92.113.26.138:8081/api/categories`, categoryData);
             return response.data; // Return the newly created category
         } catch (error) {
             return rejectWithValue(error.response ? error.response.data : error.message);
@@ -187,7 +187,7 @@ export const deleteCategory = createAsyncThunk(
     'admin/deleteCategory',
     async ({ id }, { rejectWithValue }) => {
         try {
-            const response = await axios.delete(`http://92.113.26.138:8081/api/categories/${id}`);
+            const response = await axios.delete(`https://92.113.26.138:8081/api/categories/${id}`);
             return id; // Return the ID of the deleted category
         } catch (error) {
             return rejectWithValue(error.response ? error.response.data : error.message);
