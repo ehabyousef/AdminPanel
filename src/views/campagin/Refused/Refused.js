@@ -66,7 +66,7 @@ function Refused() {
     };
     const getBlogger = async (id) => {
         try {
-            const response = await axios.get(`https://92.113.26.138:8081/api/bloger/${id}`);
+            const response = await axios.get(`http://92.113.26.138:8081/api/bloger/${id}`);
             navigate('/users/profile', { state: response.data });
         } catch (err) {
             console.error(err);
